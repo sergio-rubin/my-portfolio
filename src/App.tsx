@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { Button } from '@heroui/react'
 import { ArrowDown, ArrowUpRight, Menu, Pause, Play, X } from 'lucide-react'
 import gsap from 'gsap'
@@ -7,20 +7,35 @@ import { GlyphSculpture } from './components/GlyphSculpture'
 import { AsciiCursorTrail } from './components/AsciiCursorTrail'
 import { StackCarousel } from './components/StackCarousel'
 import { StatementSequence } from './components/StatementSequence'
+import { HeroTerminal } from './components/HeroTerminal'
 import { BinaryPath } from './components/BinaryPath'
 import { ScrollTextReveal } from './components/spaceui/scroll-text-reveal'
 import DecryptedText from './components/DecryptedText'
 
 gsap.registerPlugin(ScrollTrigger)
 
-type Project = { name: string; field: string; role: string; year: string; story: string; url?: string; visual: string }
+type Project = { name: string; field: string; role: string; year: string; story: string; url?: string; visual: string; scene: string }
 const projects: Project[] = [
-  { name: 'W.A Coding', field: 'Estudio / producto digital', role: 'Fundador, desarrollo y dirección técnica', year: '2024 —', story: 'Fundé un espacio para convertir ideas en productos digitales que funcionan en el mundo real.', url: 'https://wacoding.org/', visual: 'wa' },
-  { name: 'Habitatum', field: 'Plataforma inmobiliaria', role: 'Desarrollo web con W.A Coding', year: '2026', story: 'Una experiencia editorial para descubrir espacios y tomar decisiones con claridad.', url: 'https://habitatum.com.mx/', visual: 'habitatum' },
-  { name: 'Radar Cultural', field: 'Cultura / código abierto', role: 'Coordinación de desarrollo técnico', year: '2025 —', story: 'De una agenda creada en un hackatón a una infraestructura abierta para compartir cultura.', url: 'https://radarcultural.mx/', visual: 'radar' },
-  { name: 'Luna', field: 'Vida universitaria', role: 'Coordinación técnica, desarrollo e infraestructura', year: '2026', story: 'Una plataforma para que los encuentros de la comunidad BUAP sean fáciles de encontrar.', url: 'https://luna.alf4.org/', visual: 'luna' },
-  { name: 'ALFA Media', field: 'Medios / contenidos', role: 'Diseño y desarrollo con W.A Coding', year: '2026', story: 'Un sistema digital para una iniciativa de comunicación, producción y contenidos.', url: 'https://alf4.org/', visual: 'alfa' },
-  { name: 'Stoqio', field: 'Producto en desarrollo / offline-first', role: 'Diseño y desarrollo de producto', year: 'En proceso', story: 'Una aplicación de inventario que quiere seguir siendo útil incluso cuando la conexión desaparece.', visual: 'stoqio' },
+  { name: 'W.A Coding', field: 'Estudio / producto digital', role: 'Fundador, desarrollo y dirección técnica', year: '2024 —', story: 'Fundé un espacio para convertir ideas en productos digitales que funcionan en el mundo real.', url: 'https://wacoding.org/', visual: 'wa', scene: String.raw`{ idea }
+   ↓
+[ producto ]` },
+  { name: 'Habitatum', field: 'Plataforma inmobiliaria', role: 'Desarrollo web con W.A Coding', year: '2026', story: 'Una experiencia editorial para descubrir espacios y tomar decisiones con claridad.', url: 'https://habitatum.com.mx/', visual: 'habitatum', scene: String.raw`┌───┬────┐
+│   │    │
+├───┘    │
+└────────┘` },
+  { name: 'Radar Cultural', field: 'Cultura / código abierto', role: 'Coordinación de desarrollo técnico', year: '2025 —', story: 'De una agenda creada en un hackatón a una infraestructura abierta para compartir cultura.', url: 'https://radarcultural.mx/', visual: 'radar', scene: String.raw`   ((●))
+  ((   ))
+ ((     ))` },
+  { name: 'Luna', field: 'Vida universitaria', role: 'Coordinación técnica, desarrollo e infraestructura', year: '2026', story: 'Una plataforma para que los encuentros de la comunidad BUAP sean fáciles de encontrar.', url: 'https://luna.alf4.org/', visual: 'luna', scene: String.raw`   .---.
+  /  ◯  \
+  \     /
+   '---'` },
+  { name: 'ALFA Media', field: 'Medios / contenidos', role: 'Diseño y desarrollo con W.A Coding', year: '2026', story: 'Un sistema digital para una iniciativa de comunicación, producción y contenidos.', url: 'https://alf4.org/', visual: 'alfa', scene: String.raw`┌─ REC ● ─┐
+│  ▶ ▶ ▶  │
+└─────────┘` },
+  { name: 'Stoqio', field: 'Producto en desarrollo / offline-first', role: 'Diseño y desarrollo de producto', year: 'En proceso', story: 'Una aplicación de inventario que quiere seguir siendo útil incluso cuando la conexión desaparece.', visual: 'stoqio', scene: String.raw`[■■■□□]
+STOCK  03/05
+OFFLINE ✓` },
 ]
 const archive = [
   { title: 'd-dev', type: 'Aplicación de escritorio', detail: 'Cálculos y gráficas desarrollados con Giovanny Vélez. Fue una parte especial de mis inicios: convertir problemas matemáticos en una herramienta que se puede usar y explorar.', href: 'https://github.com/W-A-CODING/d-dev', glyph: '∫ f(x) dx', tag: 'ORIGEN / CÓDIGO + MATEMÁTICAS', status: '' },
@@ -88,36 +103,39 @@ function App() {
       gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom bottom', scrub: 1.15 } })
         .to('.hero-name', { scale: 1.3, yPercent: -13, opacity: 0.1, ease: 'none' }, 0)
         .to('.hero-intro', { yPercent: -95, opacity: 0, ease: 'none' }, 0)
+        .to('.hero-caption, .scroll-cue, .hero-topline', { opacity: 0, ease: 'none', duration: 0.28 }, 0.2)
         .to('.hero-sculpture-wrap', { scale: 1.68, yPercent: 7, opacity: 0.28, ease: 'none' }, 0)
         .to('.hero-film-grid', { scale: 1.16, opacity: 0, ease: 'none' }, 0.18)
         .to('.hero-readout', { y: -80, opacity: 0, ease: 'none' }, 0.15)
-        .fromTo('.hero-outro', { opacity: 0, y: 90, scale: 0.86 }, { opacity: 1, y: 0, scale: 1, ease: 'none' }, 0.48)
+        .fromTo('.hero-terminal', { autoAlpha: 0, y: 70, scale: 0.92 }, { autoAlpha: 1, y: 0, scale: 1, ease: 'none', duration: 0.34 }, 0.43)
+        .fromTo('.terminal-command', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', ease: 'steps(12)', duration: 0.2 }, 0.7)
+        .fromTo('.terminal-enter', { opacity: 0, x: -20 }, { opacity: 1, x: 0, ease: 'none', duration: 0.09 }, 0.87)
+        .to('.terminal-enter', { scale: 0.9, backgroundColor: '#ff6248', color: '#090909', ease: 'none', duration: 0.06 }, 0.96)
+        .fromTo('.terminal-response', { opacity: 0, y: 8 }, { opacity: 1, y: 0, ease: 'none', duration: 0.07 }, 0.98)
       gsap.to('.hero-fragment-one', { y: -170, x: 90, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } })
       gsap.to('.hero-fragment-two', { y: 140, x: -60, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 } })
-      const statementWords = gsap.utils.toArray<HTMLElement>('.statement-word')
-      let lastWord = -1
-      gsap.timeline({ scrollTrigger: { trigger: '.statement', start: 'top top', end: 'bottom bottom', scrub: 1.15, onUpdate: self => {
-        const current = Math.min(statementWords.length - 1, Math.floor(gsap.utils.mapRange(0.16, 0.78, 0, statementWords.length, self.progress)))
-        if (current === lastWord) return
-        statementWords.forEach((word, index) => { word.classList.toggle('is-lit', index <= current && self.progress >= 0.16); word.classList.toggle('is-current', index === current && self.progress >= 0.16 && self.progress < 0.8) })
-        lastWord = current
-      } } })
-        .fromTo('.statement-content', { scale: 0.84, y: 70 }, { scale: 1.08, y: -30, ease: 'none', duration: 0.62 }, 0)
-        .to('.statement-content', { scale: 1.32, y: -120, opacity: 0.13, ease: 'none', duration: 0.38 }, 0.63)
-        .fromTo('.statement-portal', { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, ease: 'none', duration: 0.24 }, 0.68)
-        .to('.portal-ring', { rotation: 105, scale: 1.45, ease: 'none', duration: 0.3 }, 0.69)
-        .to('.portal-flare', { scale: 12, opacity: 1, ease: 'power2.in', duration: 0.2 }, 0.82)
       gsap.fromTo('.work-heading h2, .work-heading p', { clipPath: 'inset(0 100% 0 0)', x: -36 }, { clipPath: 'inset(0 0% 0 0)', x: 0, duration: 1, stagger: 0.12, ease: 'power3.out', scrollTrigger: { trigger: '.selected-work', start: 'top 75%' } })
       gsap.utils.toArray<HTMLElement>('.work-row').forEach((row, index) => {
         ScrollTrigger.create({ trigger: row, start: 'top 55%', end: 'bottom 45%', onEnter: () => setActive(index), onEnterBack: () => setActive(index) })
         gsap.fromTo(row.querySelector('h3'), { clipPath: 'inset(0 100% 0 0)', x: -22 }, { clipPath: 'inset(0 0% 0 0)', x: 0, duration: 0.85, ease: 'power3.out', scrollTrigger: { trigger: row, start: 'top 88%', toggleActions: 'play none none reverse' } })
       })
+      const statementWords = gsap.utils.toArray<HTMLElement>('.statement-word')
+      let lastWord = -1
+      gsap.timeline({ scrollTrigger: { trigger: '.statement', start: 'top top', end: 'bottom bottom', scrub: 0.7, onUpdate: self => {
+        const current = Math.min(statementWords.length - 1, Math.floor(gsap.utils.mapRange(0.08, 0.7, 0, statementWords.length, self.progress)))
+        if (current === lastWord) return
+        statementWords.forEach((word, index) => { word.classList.toggle('is-lit', index <= current && self.progress >= 0.08); word.classList.toggle('is-current', index === current && self.progress >= 0.08 && self.progress < 0.72) })
+        lastWord = current
+      } } })
+        .fromTo('.statement-content', { scale: 0.94, y: 32 }, { scale: 1.08, y: -28, ease: 'none', duration: 0.7 }, 0)
+        .to('.statement-content', { scale: 1.17, y: -86, opacity: 0.18, ease: 'none', duration: 0.3 }, 0.7)
+        .fromTo('.statement-next', { opacity: 0, y: 34, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, ease: 'none', duration: 0.35 }, 0.63)
       gsap.fromTo('.stack-heading, .stack-stage', { opacity: 0, y: 36 }, { opacity: 1, y: 0, duration: 0.85, stagger: 0.13, ease: 'power3.out', scrollTrigger: { trigger: '.stack-section', start: 'top 76%' } })
       gsap.fromTo('.stack-card', { opacity: 0, y: 35 }, { opacity: 1, y: 0, duration: 0.65, stagger: 0.055, ease: 'power3.out', scrollTrigger: { trigger: '.stack-rail', start: 'top 88%' } })
-      gsap.timeline({ scrollTrigger: { trigger: '.interlude', start: 'top top', end: 'bottom bottom', scrub: 1.1 } })
-        .fromTo('.interlude-logo', { opacity: 0.4, scale: 0.6, y: 70 }, { opacity: 1, scale: 1, y: -30, ease: 'none', duration: 0.75 }, 0)
-        .fromTo('.interlude p', { scale: 0.83, y: 70 }, { scale: 1.14, y: -34, ease: 'none', duration: 1 }, 0)
-        .fromTo('.interlude-penguin', { opacity: 0, y: 80, scale: 0.7 }, { opacity: 1, y: -20, scale: 1, ease: 'none', duration: 0.38 }, 0.58)
+      gsap.timeline({ scrollTrigger: { trigger: '.interlude', start: 'top 82%', end: 'bottom bottom', scrub: 0.65 } })
+        .fromTo('.interlude-logo', { opacity: 0.75, scale: 0.85, y: 24 }, { opacity: 1, scale: 1, y: -20, ease: 'none', duration: 0.7 }, 0)
+        .fromTo('.interlude p', { scale: 0.95, y: 25 }, { scale: 1.08, y: -20, ease: 'none', duration: 0.85 }, 0)
+        .fromTo('.interlude-penguin', { opacity: 0, y: 35, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, ease: 'none', duration: 0.35 }, 0.32)
       gsap.utils.toArray<HTMLElement>('.signal-wave').forEach((wave, index) => {
         gsap.fromTo(wave, { y: 90 + index * 24, x: index % 2 ? -35 : 35, scale: 0.8 + index * 0.04 }, { y: -100 - index * 18, x: index % 2 ? 45 : -45, scale: 1.25 + index * 0.04, ease: 'none', scrollTrigger: { trigger: '.interlude', start: 'top bottom', end: 'bottom top', scrub: 1.2 } })
       })
@@ -139,15 +157,18 @@ function App() {
     return () => context.revert()
   }, [motionOff])
 
+  const workStyle = { '--scene-x': `${[20, 78, 44, 62, 28, 83][active]}%`, '--reveal-x': `${[13, 83, 32, 67, 15, 80][active]}%` } as CSSProperties
+
   return <div className={`portfolio ${motionOff ? 'motion-off' : ''}`} ref={root}>
     <AsciiCursorTrail paused={motionOff}/>
     <a className="skip-link" href="#contenido">Saltar al contenido</a>
     <header className="site-header"><a className="site-mark" href="#inicio" onClick={() => setMenuOpen(false)} aria-label="Sergio Rubín, inicio"><span>sr</span><b>_</b></a><span className="header-coordinate">Puebla, México <span className="header-signal">●</span> disponible para colaborar</span><div className="header-actions"><a className="header-contact" href="#contacto">Hablemos <ArrowUpRight size={14}/></a><button className="icon-button motion-button" type="button" aria-label={motionOff ? 'Activar animaciones' : 'Pausar animaciones'} aria-pressed={paused} onClick={() => setPaused(!paused)}>{motionOff ? <Play size={17}/> : <Pause size={17}/>}</button><button className="icon-button menu-button" type="button" aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={21}/> : <Menu size={21}/>}</button></div></header>
     <div className="site-progress" aria-hidden="true"><i className="site-progress-fill"/></div>
     <div className={`menu-overlay ${menuOpen ? 'is-open' : ''}`} aria-hidden={!menuOpen}><nav aria-label="Navegación principal"><a href="#trabajo" onClick={() => setMenuOpen(false)}>Trabajo <span>01</span></a><a href="#stack" onClick={() => setMenuOpen(false)}>Stack <span>02</span></a><a href="#archivo" onClick={() => setMenuOpen(false)}>Archivo <span>03</span></a><a href="#sobre-mi" onClick={() => setMenuOpen(false)}>Sobre mí <span>04</span></a><a href="#contacto" onClick={() => setMenuOpen(false)}>Contacto <span>05</span></a></nav><p>Sergio Rubín / Desarrollador de software</p></div>
-    <main id="contenido"><section className="hero" id="inicio" aria-labelledby="hero-title"><div className="hero-stage"><div className="hero-topline"><span>Portfolio / 2026</span><span>Software, dirección técnica<br/>e ideas en construcción</span></div><div className="hero-film-grid" aria-hidden="true"><i/><i/><i/><i/></div><div className="hero-scan" aria-hidden="true"/><div className="hero-readout" aria-hidden="true"><span>01 / IDENTIDAD</span><b>SEÑAL ABIERTA</b><span>SR — MX</span></div><div className="hero-fragment hero-fragment-one" aria-hidden="true">CREAR / PENSAR / CONSTRUIR</div><div className="hero-fragment hero-fragment-two" aria-hidden="true">DESARROLLO + DIRECCIÓN TÉCNICA</div><div className="hero-sculpture-wrap"><GlyphSculpture paused={motionOff}/><span className="hero-sculpture-caption">[ Mueve el cursor / observa ]</span></div><div className="hero-intro"><span className="intro-prompt">{motionOff ? '> hola, soy Sergio' : <DecryptedText text="> hola, soy Sergio" animateOn="view" speed={28} sequential characters="/<>_01SERGIO"/>}</span><p>Desarrollo productos digitales con intención: desde la primera interacción hasta la infraestructura que los sostiene.</p><Button className="hero-cta" variant="primary" onPress={() => document.getElementById('trabajo')?.scrollIntoView({ behavior: motionOff ? 'auto' : 'smooth' })}>Explorar mi trabajo <ArrowUpRight size={16}/></Button></div><h1 id="hero-title" className="hero-name"><span className="line-wrap"><span className="line">SERGIO</span></span><span className="line-wrap second"><span className="line">RUBÍN<span className="name-period">.</span></span></span></h1><div className="hero-caption"><span>Desarrollador de software</span><span>Fundador de W.A Coding</span></div><div className="scroll-cue"><span>Desliza para entrar</span><ArrowDown size={16}/></div><div className="hero-outro"><span>&lt; idea / sistema &gt;</span><p>Me interesa lo que pasa<br/>cuando una idea <em>se vuelve real.</em></p></div></div></section>
-      <StatementSequence motionOff={motionOff}/>
-      <section className="selected-work" id="trabajo" aria-labelledby="work-title">
+    <main id="contenido"><section className="hero" id="inicio" aria-labelledby="hero-title"><div className="hero-stage"><div className="hero-topline"><span>Portfolio / 2026</span><span>Software, dirección técnica<br/>e ideas en construcción</span></div><div className="hero-film-grid" aria-hidden="true"><i/><i/><i/><i/></div><div className="hero-scan" aria-hidden="true"/><div className="hero-readout" aria-hidden="true"><span>01 / IDENTIDAD</span><b>SEÑAL ABIERTA</b><span>SR — MX</span></div><div className="hero-fragment hero-fragment-one" aria-hidden="true">CREAR / PENSAR / CONSTRUIR</div><div className="hero-fragment hero-fragment-two" aria-hidden="true">DESARROLLO + DIRECCIÓN TÉCNICA</div><div className="hero-sculpture-wrap"><GlyphSculpture paused={motionOff}/><span className="hero-sculpture-caption">[ Mueve el cursor / observa ]</span></div><div className="hero-intro"><span className="intro-prompt">{motionOff ? '> hola, soy Sergio' : <DecryptedText text="> hola, soy Sergio" animateOn="view" speed={28} sequential characters="/<>_01SERGIO"/>}</span><p>Desarrollo productos digitales con intención: desde la primera interacción hasta la infraestructura que los sostiene.</p><Button className="hero-cta" variant="primary" onPress={() => document.getElementById('trabajo')?.scrollIntoView({ behavior: motionOff ? 'auto' : 'smooth' })}>Explorar mi trabajo <ArrowUpRight size={16}/></Button></div><h1 id="hero-title" className="hero-name"><span className="line-wrap"><span className="line">SERGIO</span></span><span className="line-wrap second"><span className="line">RUBÍN<span className="name-period">.</span></span></span></h1><div className="hero-caption"><span>Desarrollador de software</span><span>Fundador de W.A Coding</span></div><div className="scroll-cue"><span>Desliza para entrar</span><ArrowDown size={16}/></div><HeroTerminal motionOff={motionOff}/></div></section>
+      <section className="selected-work" id="trabajo" aria-labelledby="work-title" style={workStyle}>
+        <div className="work-environment" key={projects[active].name} aria-hidden="true"><strong>{projects[active].name}</strong><pre>{projects[active].scene}</pre><span>{projects[active].field}</span></div>
+        <div className="work-entry-bar"><span>sergio@portfolio:~/Proyectos</span><span>06 entradas / mueve el cursor para explorar</span></div>
         <div className="work-heading"><span>[ Trabajo seleccionado / 06 ]</span><h2 id="work-title">Trabajo que<br/><i>toma forma.</i></h2><p>Productos publicados y uno que todavía estoy construyendo. Cada historia tiene su propio contexto, equipo y reto.</p></div>
         <div className="work-body"><div className="work-list">{projects.map((project, i) => {
           const row = <><span className="work-row-index">{String(i + 1).padStart(2, '0')}</span><div><h3>{project.name}</h3><span className="work-row-type">{project.field}</span><p>{project.story}</p><span className="work-row-role">{project.role}</span></div>{project.url ? <ArrowUpRight size={27}/> : <span className="work-row-building">EN CONSTRUCCIÓN</span>}<i className="work-row-progress" aria-hidden="true"/></>
@@ -155,6 +176,7 @@ function App() {
           return project.url ? <a className={className} href={project.url} target="_blank" rel="noreferrer" key={project.name} onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)}>{row}</a> : <div className={className} tabIndex={0} role="group" aria-label={`${project.name}, ${project.field}`} key={project.name} onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)}>{row}</div>
         })}</div><div className="work-preview"><div className="work-preview-index" aria-hidden="true">{String(active + 1).padStart(2, '0')}</div><div className="preview-stack" onPointerMove={event => { const b = event.currentTarget.getBoundingClientRect(); event.currentTarget.style.setProperty('--tilt-x', `${((event.clientY - b.top) / b.height - 0.5) * -5}deg`); event.currentTarget.style.setProperty('--tilt-y', `${((event.clientX - b.left) / b.width - 0.5) * 5}deg`); event.currentTarget.style.setProperty('--light-x', `${((event.clientX - b.left) / b.width) * 100}%`) }} onPointerLeave={event => { event.currentTarget.style.setProperty('--tilt-x', '0deg'); event.currentTarget.style.setProperty('--tilt-y', '0deg') }}>{projects.map((project, i) => <div className={`preview-layer ${active === i ? 'is-active' : ''}`} aria-hidden={active !== i} key={project.name}><ProjectFrame project={project}/></div>)}</div><div className="preview-meta"><span>{String(active + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}</span><span>{projects[active].year} &nbsp; · &nbsp; {projects[active].role}</span></div></div></div>
       </section>
+      <StatementSequence motionOff={motionOff}/>
       <StackCarousel motionOff={motionOff}/>
       <section className="interlude" aria-label="Manifiesto"><div className="interlude-stage">
         <div className="signal-waves" aria-hidden="true"><i className="signal-wave wave-one"/><i className="signal-wave wave-two"/><i className="signal-wave wave-three"/><i className="signal-wave wave-four"/><span className="signal-tick tick-one">01 / ∞</span><span className="signal-tick tick-two">+ + +</span><span className="signal-tick tick-three">101101</span></div>

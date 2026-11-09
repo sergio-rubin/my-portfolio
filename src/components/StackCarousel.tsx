@@ -1,21 +1,51 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { AsciiRain } from './AsciiRain'
 
 type Tool = { name: string; kind: string; glyph: string; note: string; color: string; art: string }
 const tools: Tool[] = [
-  { name: 'TypeScript', kind: 'LENGUAJE', glyph: 'type T = idea;', note: 'Interfaces claras para productos que siguen creciendo.', color: '#4D9BE9', art: '┌─────────┐\n│  T S  ▰ │\n└─────────┘' },
-  { name: 'JavaScript', kind: 'LENGUAJE', glyph: 'const idea = () =>', note: 'La base flexible de muchas experiencias web.', color: '#F2D553', art: '┌─────────┐\n│  J S  ↗ │\n└─────────┘' },
-  { name: 'React', kind: 'FRONTEND', glyph: '<Interface />', note: 'Experiencias rápidas, expresivas y fáciles de usar.', color: '#67D5E7', art: '  ╭───╮\n──(  ●  )──\n  ╰───╯' },
-  { name: 'Python', kind: 'LENGUAJE', glyph: 'def construir():', note: 'Lógica, automatización y nuevas formas de explorar.', color: '#E9C75C', art: ' ╭────╮\n ╰─╮py│\n py╰──╯' },
-  { name: 'Django', kind: 'BACKEND', glyph: 'request → response', note: 'La estructura detrás de plataformas reales.', color: '#58B98C', art: '┌─ dj ─┐\n│  { }  │\n└───────┘' },
-  { name: 'PostgreSQL', kind: 'DATOS', glyph: 'SELECT futuro;', note: 'Datos consistentes para decisiones confiables.', color: '#75A5DF', art: '  ╭───╮\n ╱ SQL ╲\n ╲_____/ ' },
-  { name: 'SQLite', kind: 'DATOS', glyph: 'local.db / 01', note: 'Persistencia ligera para herramientas locales.', color: '#74B5D9', art: '╭──────╮\n│ .db  │\n╰──────╯' },
-  { name: 'C/C++', kind: 'LENGUAJE', glyph: '#include <idea>', note: 'Pensar cerca del sistema y entender su funcionamiento.', color: '#8797EB', art: '╭──────╮\n│ C ++ │\n╰──────╯' },
-  { name: 'C#', kind: 'LENGUAJE', glyph: 'public class Idea', note: 'Otra vía para construir software con estructura.', color: '#B484D9', art: '╭──────╮\n│ C #  │\n╰──────╯' },
-  { name: 'Cloudflare', kind: 'INFRAESTRUCTURA', glyph: 'edge → mundo', note: 'Infraestructura para llevar productos a más personas.', color: '#F4A554', art: '  __  _\n (  ☁  )\n  ‾‾‾‾‾' },
-  { name: 'Three.js', kind: 'CREATIVE CODE', glyph: 'x · y · z', note: 'Profundidad e interacción cuando aportan a la historia.', color: '#E6E6E0', art: '  /|\n /_|__\n | / /' },
-  { name: 'GSAP', kind: 'MOTION', glyph: 't = 0 → ∞', note: 'Movimiento preciso al servicio del contenido.', color: '#AAE169', art: '0───▶∞\n t:  01\n ↗↗↗↗↗' },
-  { name: 'Linux', kind: 'SISTEMAS', glyph: '$ ./construir', note: 'Un entorno cotidiano para explorar, desarrollar y entregar.', color: '#E6C96B', art: '  .--.\n (o_o)\n /|_|\\' },
+  { name: 'TypeScript', kind: 'LENGUAJE', glyph: 'type T = idea;', note: 'Interfaces claras para productos que siguen creciendo.', color: '#4D9BE9', art: String.raw`┏━━━━━━━━┓
+┃   TS   ┃
+┗━━━━━━━━┛` },
+  { name: 'JavaScript', kind: 'LENGUAJE', glyph: 'const idea = () =>', note: 'La base flexible de muchas experiencias web.', color: '#F2D553', art: String.raw`┏━━━━━━━━┓
+┃   JS   ┃
+┗━━━━━━━━┛` },
+  { name: 'React', kind: 'FRONTEND', glyph: '<Interface />', note: 'Experiencias rápidas, expresivas y fáciles de usar.', color: '#67D5E7', art: String.raw`  .---.
+--(  ●  )--
+  '---'` },
+  { name: 'Python', kind: 'LENGUAJE', glyph: 'def construir():', note: 'Lógica, automatización y nuevas formas de explorar.', color: '#E9C75C', art: String.raw`╭── py ──╮
+╰─╮  ╭──╯
+╭─╯  ╰──╮
+╰── PY ─╯` },
+  { name: 'Django', kind: 'BACKEND', glyph: 'request → response', note: 'La estructura detrás de plataformas reales.', color: '#58B98C', art: String.raw`django
+request()
+   ↳ 200 OK` },
+  { name: 'PostgreSQL', kind: 'DATOS', glyph: 'SELECT futuro;', note: 'Datos consistentes para decisiones confiables.', color: '#75A5DF', art: String.raw`  __  __
+ /  \/  \
+(  o  o  )
+ \   __/│
+  \_/   │` },
+  { name: 'SQLite', kind: 'DATOS', glyph: 'local.db / 01', note: 'Persistencia ligera para herramientas locales.', color: '#74B5D9', art: String.raw`    /)
+   //
+  ///___
+ (______)` },
+  { name: 'C/C++', kind: 'LENGUAJE', glyph: '#include <idea>', note: 'Pensar cerca del sistema y entender su funcionamiento.', color: '#8797EB', art: String.raw`  _______
+ / C ++  \
+|  < >    |
+ \_______/` },
+  { name: 'C#', kind: 'LENGUAJE', glyph: 'public class Idea', note: 'Otra vía para construir software con estructura.', color: '#B484D9', art: String.raw`   ______
+  / C # /|
+ /_____/ |
+ |_____|/` },
+  { name: 'Cloudflare', kind: 'INFRAESTRUCTURA', glyph: 'edge → mundo', note: 'Infraestructura para llevar productos a más personas.', color: '#F4A554', art: String.raw`   \ | /
+ -- ( ) --
+  .-----.
+ (______)` },
+  { name: 'Linux', kind: 'SISTEMAS', glyph: '$ ./construir', note: 'Un entorno cotidiano para explorar, desarrollar y entregar.', color: '#E6C96B', art: String.raw`   .--.
+  |o_o |
+  |:_/ |
+ //   \
+(|     |)` },
 ]
 
 export function StackCarousel({ motionOff }: { motionOff: boolean }) {
@@ -54,6 +84,8 @@ export function StackCarousel({ motionOff }: { motionOff: boolean }) {
 
   const current = tools[active]
   return <section className="stack-section" id="stack" aria-labelledby="stack-title" ref={sectionRef} onPointerMove={() => setInteracting(true)} onPointerLeave={() => setInteracting(false)} onFocusCapture={() => setInteracting(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setInteracting(false) }} onTouchStart={() => setInteracting(true)} onTouchEnd={() => setInteracting(false)}>
+    <AsciiRain/>
+    <div className="stack-marquee" aria-hidden="true"><div>{[...tools, ...tools].map((tool, index) => <span key={`${tool.name}-${index}`}>{tool.name}<i> / </i></span>)}</div></div>
     <div className="stack-heading"><span>[ Herramientas / {String(tools.length).padStart(2, '0')} ]</span><div><h2 id="stack-title">Mi lenguaje<br/><i>de trabajo.</i></h2><p>Un stack para resolver problemas reales. Cada herramienta entra cuando la idea la necesita.</p></div></div>
     <div className="stack-stage" style={{ '--brand': current.color } as CSSProperties} aria-live={interacting ? 'polite' : 'off'}>
       <div className="stack-spotlight"><span>{String(active + 1).padStart(2, '0')} / {String(tools.length).padStart(2, '0')} — {current.kind}</span><strong key={current.glyph}>{current.glyph}</strong><p>{current.note}</p></div>

@@ -12,11 +12,11 @@ npm run build
 
 ## Experiencia
 
-- Portada tipográfica con escultura `SR` de puntos WebGL en Three.js, retícula cinematográfica y estela ASCII que sigue al cursor.
-- Lectura fija con zoom, iluminación progresiva de palabras y apertura circular hacia los proyectos.
-- Trabajo seleccionado con imágenes originales, una composición editorial de Stoqio y vistas previas que se revelan como obturadores.
-- Carrusel automático de lenguajes y herramientas con controles, colores de marca atenuados y dibujos ASCII en interacción.
-- Manifiesto con ondas, firma `sr_` y un pingüino ASCII que entran durante el scroll.
+- Portada tipográfica con escultura `SR` de puntos WebGL en Three.js, retícula cinematográfica, estela ASCII y una terminal que escribe `cd Proyectos` durante el scroll.
+- Trabajo seleccionado con imágenes originales, una composición editorial de Stoqio y un ambiente que cambia al enfocar cada caso. La vista previa se abre con un iris desde una posición distinta para cada proyecto.
+- Lectura fija después de los casos, con zoom e iluminación progresiva de palabras, que conduce al stack.
+- Carrusel automático de lenguajes y herramientas con controles, colores de marca atenuados, dibujos ASCII y lluvia de caracteres con ondas tipográficas.
+- Manifiesto conectado a la lluvia del stack, con ondas, firma `sr_` y un pingüino ASCII que entran durante el scroll.
 - Archivo experimental contado en cuatro capítulos verticales con diagramas ASCII y un camino sinuoso de bits que se ilumina.
 - Navegación superpuesta, control de pausa y soporte para `prefers-reduced-motion`.
 - HeroUI para el control principal, Space UI `ScrollTextReveal` en la presentación, ReactBits `DecryptedText` para el saludo y GSAP ScrollTrigger para las escenas.

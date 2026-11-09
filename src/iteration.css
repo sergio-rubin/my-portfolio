@@ -1,0 +1,149 @@
+/* A command is the hinge between the WebGL portrait and the project directory. */
+.hero-terminal {
+  position: absolute;
+  z-index: 8;
+  left: 50%;
+  bottom: 22%;
+  translate: -50% 0;
+  width: min(800px, 74vw);
+  border: 1px solid #ff62489c;
+  background: #0b0b0bf0;
+  box-shadow: 0 35px 120px #000b, 0 0 90px #ff62481a, inset 0 0 0 1px #ffffff0c;
+  backdrop-filter: blur(22px);
+  opacity: 0;
+  visibility: hidden;
+  transform-origin: center bottom;
+}
+.terminal-top,
+.terminal-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.terminal-top { min-height: 42px; padding: 0 18px; border-bottom: 1px solid #ffffff24; color: #9b9b9b; font: 10px 'Azeret Mono', monospace; }
+.terminal-lights { display: flex; gap: 6px; }
+.terminal-lights i { width: 5px; height: 5px; border: 1px solid #a1a1a1; border-radius: 50%; }
+.terminal-lights i:first-child { background: var(--accent); border-color: var(--accent); }
+.terminal-body { display: flex; align-items: baseline; gap: 16px; padding: clamp(32px, 6vw, 70px) 30px; white-space: nowrap; overflow: hidden; font: 500 clamp(21px, 3.4vw, 52px)/1.2 'Azeret Mono', monospace; letter-spacing: -.06em; }
+.terminal-line-number { align-self: flex-start; color: #666; font: 11px 'Azeret Mono', monospace; letter-spacing: 0; }
+.terminal-prompt { color: #a4a4a4; }
+.terminal-prompt b { color: var(--accent); font-weight: 500; }
+.terminal-command { display: inline-block; color: #f2f2ef; clip-path: inset(0 100% 0 0); }
+.terminal-caret { color: var(--accent); font-weight: 400; animation: terminal-caret 1s steps(1) infinite; }
+@keyframes terminal-caret { 50% { opacity: 0; } }
+.terminal-bottom { min-height: 59px; padding: 8px 14px 8px 22px; border-top: 1px solid #ffffff24; font: 10px 'Azeret Mono', monospace; color: #aaa; }
+.terminal-response { opacity: 0; }
+.terminal-enter { border: 1px solid var(--accent); color: var(--accent); background: #ff62480c; border-radius: 3px; padding: 10px 16px; white-space: nowrap; cursor: pointer; font: 500 11px 'Azeret Mono', monospace; opacity: 0; transition: background .2s, color .2s; }
+.terminal-enter:hover,
+.terminal-enter:focus-visible { background: var(--accent); color: #090909; }
+.hero-terminal:focus-within { opacity: 1 !important; visibility: visible !important; }
+.hero-terminal:focus-within .terminal-command { clip-path: none !important; }
+.hero-terminal:focus-within .terminal-enter { opacity: 1 !important; }
+.motion-off .hero-terminal { display: none; }
+
+/* The selected work behaves like a directory whose atmosphere changes on focus. */
+.selected-work { border-top: 0; background: #0b0b0b; isolation: isolate; }
+.work-environment { position: sticky; top: 0; height: 100svh; margin-bottom: -100svh; z-index: 0; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse at var(--scene-x) 52%, #ff62481c, transparent 47%), repeating-linear-gradient(90deg, transparent 0 13.9%, #ffffff07 14% 14.02%); animation: scene-breathe .7s ease-out both; }
+.work-environment::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #090909c9, transparent 45%, #0909097d), linear-gradient(transparent 75%, #090909); }
+.work-environment strong { position: absolute; bottom: 1%; left: 2%; max-width: 100%; font-size: clamp(135px, 23vw, 430px); font-weight: 850; line-height: .73; letter-spacing: -.12em; white-space: nowrap; color: #ff62480d; transform: translateX(-3%); animation: scene-type .55s cubic-bezier(.22,1,.36,1) both; }
+.work-environment pre { position: absolute; right: 6%; top: 19%; margin: 0; color: #ff624846; font: clamp(12px, 1.4vw, 23px)/1.15 'Azeret Mono', monospace; transform: rotate(8deg); animation: scene-art .6s cubic-bezier(.22,1,.36,1) both; }
+.work-environment>span { position: absolute; right: 6%; bottom: 15%; color: #ffffff35; font: 10px 'Azeret Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+@keyframes scene-breathe { from { opacity: .2; filter: blur(20px); } to { opacity: 1; filter: blur(0); } }
+@keyframes scene-type { from { opacity: 0; transform: translateX(5%); } to { opacity: 1; transform: translateX(-3%); } }
+@keyframes scene-art { from { opacity: 0; transform: translateY(20px) rotate(15deg); } to { opacity: 1; transform: translateY(0) rotate(8deg); } }
+.work-entry-bar { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 18px; padding: 14px 0 17px; margin: -85px 0 115px; border-bottom: 1px solid var(--accent); font: 10px 'Azeret Mono', monospace; color: #999; }
+.work-entry-bar span:first-child { color: var(--accent); }
+.work-heading,
+.work-body { position: relative; z-index: 2; }
+.work-row { isolation: isolate; }
+.work-row::before { content: ''; position: absolute; z-index: -1; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, #ff624826, transparent); transition: width .4s cubic-bezier(.22,1,.36,1); }
+.work-row:hover::before,
+.work-row.is-active::before,
+.work-row:focus-visible::before { width: 100%; }
+.work-row h3 { transition: transform .36s cubic-bezier(.22,1,.36,1), color .3s; }
+.work-row:hover h3,
+.work-row.is-active h3,
+.work-row:focus-visible h3 { transform: translateX(10px); color: #fff; }
+.work-row p { transition: color .25s; }
+.work-row:hover p,
+.work-row.is-active p { color: #d0d0cc; }
+.work-preview { z-index: 3; }
+.preview-layer.is-active .project-frame { animation: project-aperture .72s cubic-bezier(.22,1,.36,1) both; }
+@keyframes project-aperture { from { clip-path: circle(0% at var(--reveal-x) 52%); filter: grayscale(1) contrast(1.6); } to { clip-path: circle(145% at var(--reveal-x) 52%); filter: grayscale(0) contrast(1); } }
+.motion-off .work-environment,
+.motion-off .work-environment strong,
+.motion-off .work-environment pre,
+.motion-off .preview-layer.is-active .project-frame { animation: none; }
+
+/* The reading scene now closes the project directory and hands off to tools. */
+.statement { height: 165svh; min-height: 1170px; background: #101010; }
+.statement-stage { background: radial-gradient(circle at 50% 40%, #1c1c1c, #101010 65%); }
+.statement-next { position: absolute; z-index: 4; left: 50%; top: 50%; translate: -50% -50%; width: min(980px, 90vw); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 9px; opacity: 0; pointer-events: none; }
+.statement-next span { font-size: clamp(56px, 8vw, 140px); font-weight: 730; line-height: .88; letter-spacing: -.08em; }
+.statement-next strong { color: var(--accent); font: 500 clamp(55px, 7vw, 105px)/1 'Azeret Mono', monospace; }
+.statement-next small { font: 10px 'Azeret Mono', monospace; letter-spacing: .1em; color: #999; }
+.motion-off .statement-next { display: none; }
+
+/* ASCII precipitation keeps the tools in motion and becomes the interlude's waves. */
+.stack-section { position: relative; isolation: isolate; background: #101010; }
+.stack-heading,
+.stack-stage,
+.stack-rail,
+.stack-foot { position: relative; z-index: 2; }
+.stack-marquee { position: absolute; z-index: 2; top: 0; left: 0; right: 0; height: 43px; overflow: hidden; border-block: 1px solid #ffffff1a; background: #0c0c0c; color: #ffffff77; font: 9px/42px 'Azeret Mono', monospace; white-space: nowrap; }
+.stack-marquee>div { display: flex; width: max-content; gap: 30px; animation: stack-marquee-travel 36s linear infinite; }
+.stack-marquee span { display: inline-flex; gap: 30px; }
+.stack-marquee i { color: var(--accent); font-style: normal; }
+@keyframes stack-marquee-travel { to { transform: translateX(-50%); } }
+.ascii-rain { position: absolute; z-index: 1; inset: 0; overflow: hidden; pointer-events: none; -webkit-mask-image: linear-gradient(transparent, #000 12%, #000 85%, transparent); mask-image: linear-gradient(transparent, #000 12%, #000 85%, transparent); }
+.ascii-rain-drop { position: absolute; top: -22%; left: var(--x); margin: 0; color: #ff62488a; font: 10px/1.7 'Azeret Mono', monospace; text-align: center; white-space: pre; text-shadow: 0 0 15px #ff62484b; animation: ascii-fall var(--duration) linear var(--delay) infinite; }
+@keyframes ascii-fall { from { translate: 0 -8vh; opacity: 0; } 15% { opacity: .65; } 83% { opacity: .65; } to { translate: 0 115vh; opacity: 0; } }
+.ascii-rain-impact { position: absolute; left: var(--x); top: var(--y); width: 120px; height: 50px; transform: translate(-50%, -50%); color: #ff624845; font: 8px 'Azeret Mono', monospace; white-space: nowrap; }
+.ascii-rain-impact span { position: absolute; left: 50%; top: 50%; display: block; transform: translate(-50%, -50%) scale(.2); opacity: 0; border-radius: 50%; letter-spacing: .1em; animation: ascii-ripple 4.8s ease-out var(--delay) infinite; }
+.ascii-rain-impact span:last-child { animation-delay: calc(var(--delay) + .55s); }
+@keyframes ascii-ripple { 14% { opacity: .5; } 75% { opacity: .05; } to { transform: translate(-50%, -50%) scale(2.1); opacity: 0; } }
+.stack-stage { background: #101010c9; backdrop-filter: blur(8px); }
+.stack-card { background: #171717e8; }
+.stack-foot { padding-bottom: 15px; }
+.motion-off .ascii-rain-drop,
+.motion-off .ascii-rain-impact span,
+.motion-off .stack-marquee>div { animation: none; }
+.motion-off .ascii-rain { opacity: .12; }
+
+.interlude { height: 132svh; min-height: 1020px; background: #101010; }
+.interlude-stage { background: linear-gradient(#101010 0%, #171717 27%, #1b1b1b 75%); }
+.interlude-stage::after { content: '0 1 + 0 1 + 0 1 + 0 1 + 0 1 + 0 1 + 0 1 + 0 1 +'; position: absolute; z-index: 2; top: 2%; left: -10%; right: -10%; overflow: hidden; white-space: nowrap; font: 9px 'Azeret Mono', monospace; letter-spacing: 1.2vw; color: #ff624845; opacity: .55; transform: rotate(-2deg); }
+
+@media (max-width: 900px) {
+  .hero-terminal { width: min(730px, 86vw); bottom: 25%; }
+  .work-entry-bar { margin-top: -45px; margin-bottom: 75px; }
+  .statement { height: 150svh; min-height: 1030px; }
+  .interlude { height: 126svh; min-height: 890px; }
+}
+@media (max-width: 620px) {
+  .hero-terminal { width: calc(100% - 38px); bottom: 28%; }
+  .terminal-top { min-height: 34px; padding-inline: 10px; font-size: 7px; }
+  .terminal-body { gap: 6px; padding: 31px 10px; font-size: clamp(14px, 4vw, 19px); }
+  .terminal-line-number { font-size: 7px; }
+  .terminal-bottom { min-height: 45px; padding: 5px 7px 5px 10px; font-size: 8px; line-height: 1.3; }
+  .terminal-response { max-width: 190px; }
+  .terminal-enter { padding: 7px 9px; font-size: 8px; }
+  .selected-work { padding-top: 85px; }
+  .work-entry-bar { margin: -40px 0 65px; font-size: 7px; }
+  .work-entry-bar span:last-child { text-align: right; max-width: 135px; }
+  .work-environment strong { font-size: 32vw; bottom: 7%; }
+  .work-environment pre { font-size: 10px; right: 10%; top: 29%; }
+  .work-environment>span { display: none; }
+  .statement { height: 138svh; min-height: 920px; }
+  .statement-next span { font-size: clamp(54px, 13vw, 75px); }
+  .statement-next small { font-size: 7px; }
+  .stack-section { padding-top: 105px; }
+  .stack-marquee { height: 34px; font-size: 7px; line-height: 33px; }
+  .stack-marquee>div { gap: 18px; }
+  .stack-marquee span { gap: 18px; }
+  .ascii-rain-drop { font-size: 7px; }
+  .ascii-rain-impact { font-size: 6px; }
+  .interlude { height: 120svh; min-height: 800px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .terminal-caret,
+  .ascii-rain-drop,
+  .ascii-rain-impact span,
+  .stack-marquee>div { animation: none; }
+}
