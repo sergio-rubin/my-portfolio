@@ -150,3 +150,5 @@
   .ascii-rain-impact span,
   .stack-marquee>div { animation: none; }
 }
+.motion-button:disabled { opacity: .55; cursor: default; }
+.motion-button:disabled:hover { background: #ffffff0b; }
