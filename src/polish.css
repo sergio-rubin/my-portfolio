@@ -46,6 +46,7 @@ html::-webkit-scrollbar-thumb:hover { background: #ff806b; }
 }
 
 @media (max-width: 620px) {
+  .archive-story.story-3 h3 { font-size: clamp(42px, 12vw, 50px); }
   .contact-section h2 { line-height: .98; letter-spacing: -.065em; }
 }
 

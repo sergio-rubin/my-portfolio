@@ -1,4 +1,5 @@
 import { ScrollSmoother } from 'gsap/ScrollSmoother'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export function HeroTerminal({ motionOff }: { motionOff: boolean }) {
   const openProjects = () => {
@@ -15,17 +16,20 @@ export function HeroTerminal({ motionOff }: { motionOff: boolean }) {
       return
     }
     const smoother = ScrollSmoother.get()
+    const arrival = ScrollTrigger.create({
+      trigger: work,
+      start: 'top 80px',
+      onEnter: self => {
+        focusHeading()
+        self.kill()
+      },
+    })
     if (smoother) smoother.scrollTo(work, true, 'top top')
     else work.scrollIntoView({ behavior: 'smooth' })
-    const started = performance.now()
-    const focusOnArrival = () => {
-      if (Math.abs(work.getBoundingClientRect().top) < 100) {
-        focusHeading()
-      } else if (performance.now() - started < 15000) {
-        window.requestAnimationFrame(focusOnArrival)
-      }
+    if (Math.abs(work.getBoundingClientRect().top) < 80) {
+      focusHeading()
+      arrival.kill()
     }
-    window.requestAnimationFrame(focusOnArrival)
   }
   return <div className="hero-terminal" aria-label="Terminal: cd Proyectos">
     <div className="terminal-top"><span className="terminal-lights" aria-hidden="true"><i/><i/><i/></span><span>sergio@portfolio:~</span><span>01 / 06</span></div>
