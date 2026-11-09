@@ -31,6 +31,10 @@ html::-webkit-scrollbar-thumb:hover { background: #ff806b; }
 
 .contact-section h2 { line-height: .91; letter-spacing: -.075em; }
 .archive-story.story-3 .archive-story-copy { max-width: none; }
+.archive-story.story-1 .archive-story-art > span { font-size: clamp(38px, 4vw, 58px); }
+.archive-story.story-1 .archive-story-art pre { font-size: 10px; line-height: 1.15; margin-top: 10px; }
+.archive-story.story-2 .archive-story-art > span { font-size: clamp(40px, 4vw, 54px); }
+.archive-story.story-2 .archive-story-art pre { font-size: 8px; line-height: 1.1; margin-top: 0; }
 
 @media (min-width: 1200px) {
   .archive-story.story-3 .archive-story-art > span { font-size: clamp(43px, 3vw, 48px); }
@@ -46,6 +50,8 @@ html::-webkit-scrollbar-thumb:hover { background: #ff806b; }
 }
 
 @media (max-width: 620px) {
+  .stack-hero-art { display: none; }
+  .archive-story.story-2 .archive-story-art pre { display: none; }
   .archive-story.story-3 h3 { font-size: clamp(42px, 12vw, 50px); }
   .contact-section h2 { line-height: .98; letter-spacing: -.065em; }
 }
