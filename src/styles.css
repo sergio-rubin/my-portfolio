@@ -79,3 +79,4 @@
 .archive-doodle{position:absolute;z-index:0;color:#ffffff42;font:11px/1.35 'Azeret Mono',monospace;letter-spacing:.12em;pointer-events:none;white-space:pre}.doodle-one{top:310px;right:10%;transform:rotate(9deg)}.doodle-two{top:1130px;left:12%;transform:rotate(-11deg)}
 @media(max-width:900px){.archive-doodle{font-size:8px}.doodle-one{right:5%}.doodle-two{left:5%}}
 @media(max-width:620px){.archive-doodle{display:none}}
+@media(min-width:901px) and (max-height:1050px){.hero-name{font-size:14.5vw;bottom:5%}}
