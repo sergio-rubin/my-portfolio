@@ -19,6 +19,22 @@ html::-webkit-scrollbar-thumb:hover { background: #ff806b; }
 .has-scroll-smoother .statement-stage,
 .has-scroll-smoother .interlude-stage { position: relative; }
 
+.about-section { position: relative; }
+.about-seam {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent) 50%, transparent);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.contact-section h2 { line-height: .91; letter-spacing: -.075em; }
+
+@media (max-width: 620px) {
+  .contact-section h2 { line-height: .98; letter-spacing: -.065em; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }

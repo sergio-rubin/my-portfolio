@@ -18,6 +18,7 @@ npm run build
 - Carrusel automático de lenguajes y herramientas con controles, colores de marca atenuados, dibujos ASCII y lluvia de caracteres con ondas tipográficas.
 - Manifiesto conectado a la lluvia del stack, con ondas, firma `sr_` y un pingüino ASCII que entran durante el scroll.
 - Archivo experimental contado en cuatro capítulos verticales con diagramas ASCII y un camino sinuoso de bits que se ilumina.
+- El cierre enlaza el archivo con una línea de acento que revela el retrato, la presentación y el contacto sin encimar titulares.
 - Navegación superpuesta con soporte para historial, control de pausa y `prefers-reduced-motion`. Al pausar, el desplazamiento vuelve al flujo nativo; WebGL y los efectos ASCII descansan.
 - Scroll nativo suavizado con GSAP ScrollSmoother, barra personalizada y escenas fijadas con ScrollTrigger. Enter limpia el hero antes de revelar el directorio sin inclinación; los enlaces internos usan el desplazamiento del plugin.
 - HeroUI para el control principal, Space UI `ScrollTextReveal` en la presentación y ReactBits `DecryptedText` para el saludo.
