@@ -6,7 +6,7 @@ La identidad toma el lenguaje del código y la curiosidad técnica de Sergio. **
 
 | Sitio | Hallazgo | Decisión aplicada |
 | --- | --- | --- |
-| [Space UI](https://spaceui.one/) | Componentes táctiles de apariencia sobria y revelados que acompañan la lectura. | `ScrollTextReveal` en el manifiesto, sin extenderlo a cada bloque. |
+| [Space UI](https://spaceui.one/) | Componentes táctiles de apariencia sobria y revelados que acompañan la lectura. | `ScrollTextReveal` en la presentación, sin extenderlo a cada bloque. |
 | [HeroUI](https://heroui.com/) | Controles claros, estados accesibles y superficies oscuras cuidadas. | Botón principal compuesto con HeroUI y navegación contrastada. |
 | [ReactBits](https://reactbits.dev/) | `DecryptedText` ofrece un pequeño momento interactivo de terminal. | Saludo descifrado, limitado a una línea. |
 | [Kott Studio](https://kott.studio/) | Una pieza dominante se transforma con el scroll; los trabajos alternan escala tipográfica e imagen. | Escultura WebGL en la portada y casos activos de gran formato. |
@@ -15,10 +15,10 @@ La identidad toma el lenguaje del código y la curiosidad técnica de Sergio. **
 
 ## Sistema
 
-- **Color:** negro `#050505`, superficie `#090909`, pausas de lectura `#161616` y `#202020`, gris `#777`, blanco cálido `#f2f2ef`. Todas las escenas permanecen en modo oscuro.
+- **Color:** negro `#050505`, superficie `#090909`, pausas de lectura `#161616` y `#202020`, gris `#777`, blanco cálido `#f2f2ef` y bermellón `#ff6248` para guiar la narración. Todas las escenas permanecen en modo oscuro.
 - **Tipo:** Bricolage Grotesque Variable con peso alto y espaciado comprimido para la firma y titulares; Azeret Mono para la gramática ASCII, ubicaciones y metadatos.
-- **Composición:** portada fija durante el primer scroll; la escultura `SR` y diagramas ASCII en parallax cruzan la firma. La imagen activa permanece fija frente a nombres y contexto. El stack tiene un carrusel editorial; el manifiesto abre un campo de ondas; el archivo avanza en cuatro capítulos verticales de posición alterna.
-- **Movimiento:** entrada coordinada, parallax en portada y ondas, cambios de foco entre casos, estela ASCII de cursor y revelados escalonados en el archivo. El control de pausa detiene WebGL, GSAP y la estela. `prefers-reduced-motion` activa el mismo comportamiento. El carrusel mantiene sus controles en ambos modos.
+- **Composición:** portada fija durante el primer scroll con retícula y lectura técnica; una frase anclada ilumina palabras y abre un portal circular hacia el trabajo. La imagen activa permanece fija frente a nombres y contexto. El stack tiene un carrusel editorial con arte ASCII. El manifiesto centra la firma y un pingüino Linux; el archivo avanza en cuatro capítulos verticales de posición alterna siguiendo un camino de bits sinuoso.
+- **Movimiento:** entrada coordinada, parallax en portada y ondas, zoom de lectura, cambios de foco y obturador entre casos, carrusel automático que cede ante la interacción, estela ASCII de cursor y revelados escalonados en el archivo. El control de pausa detiene WebGL, GSAP, el carrusel y la estela. `prefers-reduced-motion` activa el mismo comportamiento.
 - **Material real:** fotografía de Habitatum, recursos de Radar Cultural, marca de ALFA y retrato del perfil de GitHub. La imagen de Luna se expresa con tipografía y estructura gráfica porque no se incorporó una captura del sitio.
 - **Accesibilidad:** enlace para saltar al contenido, etiquetas de navegación, foco visible, enlaces directos a los proyectos, imagen con texto alternativo, interacción usable con teclado y una experiencia móvil sin fijación horizontal.
 

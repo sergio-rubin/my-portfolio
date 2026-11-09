@@ -26,6 +26,7 @@ export function GlyphSculpture({ paused }: Props) {
     const positions: number[] = []
     const tones: number[] = []
     const phases: number[] = []
+    const accents: number[] = []
     for (let y = 28; y < 304; y += 4) {
       for (let x = 15; x < 568; x += 4) {
         const alpha = pixels[(y * 580 + x) * 4 + 3]
@@ -35,6 +36,7 @@ export function GlyphSculpture({ paused }: Props) {
         const tone = 0.38 + random() * 0.62
         tones.push(tone, tone, tone)
         phases.push(random() * Math.PI * 2)
+        accents.push(random() > 0.94 ? 1 : 0)
       }
     }
 
@@ -57,13 +59,14 @@ export function GlyphSculpture({ paused }: Props) {
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(tones, 3))
     geometry.setAttribute('aPhase', new THREE.Float32BufferAttribute(phases, 1))
+    geometry.setAttribute('aAccent', new THREE.Float32BufferAttribute(accents, 1))
     const material = new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
-      uniforms: { uTime: { value: 0 }, uScroll: { value: 0 } },
-      vertexShader: `attribute vec3 color; attribute float aPhase; varying vec3 vColor; uniform float uTime; uniform float uScroll; void main() { vColor = color; vec3 p = position; p.z += sin(p.x * 4.0 + aPhase + uTime * 0.4) * (0.06 + uScroll * 0.3); p.x += sin(aPhase + uTime * 0.22) * 0.015; vec4 mv = modelViewMatrix * vec4(p, 1.0); gl_Position = projectionMatrix * mv; gl_PointSize = min(5.0, 3.8 * (7.3 / -mv.z)); }`,
-      fragmentShader: `varying vec3 vColor; void main() { vec2 p = gl_PointCoord - 0.5; float a = smoothstep(0.5, 0.22, length(p)); gl_FragColor = vec4(vColor, a * 0.9); }`,
+      uniforms: { uTime: { value: 0 }, uScroll: { value: 0 }, uPointer: { value: new THREE.Vector2() }, uAccent: { value: new THREE.Color('#ff6248') } },
+      vertexShader: `attribute vec3 color; attribute float aPhase; attribute float aAccent; varying vec3 vColor; varying float vAccent; uniform float uTime; uniform float uScroll; uniform vec2 uPointer; uniform vec3 uAccent; void main() { vec3 p = position; float bloom = smoothstep(0.18, 1.0, uScroll); vec2 target = uPointer * vec2(2.35, -1.35); vec2 away = p.xy - target; float nearPointer = exp(-dot(away, away) * 1.6); p.xy += normalize(away + vec2(0.001)) * nearPointer * 0.32; p.xy += vec2(cos(aPhase * 7.0), sin(aPhase * 6.0)) * bloom * (0.25 + aAccent * 0.8); p.z += sin(p.x * 3.8 + aPhase + uTime * 0.45) * (0.07 + uScroll * 0.36); p.z += nearPointer * 0.36; vAccent = aAccent; vColor = mix(color, uAccent, aAccent * (0.55 + bloom * 0.45)); vec4 mv = modelViewMatrix * vec4(p, 1.0); gl_Position = projectionMatrix * mv; gl_PointSize = min(6.0, (3.5 + aAccent * 1.6 + nearPointer * 1.2) * (7.3 / -mv.z)); }`,
+      fragmentShader: `varying vec3 vColor; varying float vAccent; void main() { vec2 p = gl_PointCoord - 0.5; float a = smoothstep(0.5, 0.16, length(p)); gl_FragColor = vec4(vColor, a * (0.82 + vAccent * 0.18)); }`,
     })
     const points = new THREE.Points(geometry, material)
     scene.add(points)
@@ -102,6 +105,7 @@ export function GlyphSculpture({ paused }: Props) {
       elapsed += timer.getDelta()
       material.uniforms.uTime.value = paused ? 0 : elapsed
       material.uniforms.uScroll.value = paused ? 0 : scroll
+      material.uniforms.uPointer.value.set(paused ? 0 : pointer.x, paused ? 0 : pointer.y)
       points.rotation.y += ((paused ? 0 : pointer.x * 0.13 + scroll * 0.49) - points.rotation.y) * 0.035
       points.rotation.x += ((paused ? 0 : -pointer.y * 0.09 - scroll * 0.11) - points.rotation.x) * 0.035
       points.position.y += ((paused ? 0 : scroll * 0.35) - points.position.y) * 0.035
