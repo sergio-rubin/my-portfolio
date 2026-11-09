@@ -12,10 +12,12 @@ npm run build
 
 ## Experiencia
 
-- Portada tipográfica con escultura `SR` creada con puntos WebGL en Three.js. Responde al cursor y al desplazamiento.
+- Portada tipográfica con escultura `SR` creada con puntos WebGL en Three.js, figuras ASCII con parallax y una estela ASCII que sigue al cursor.
 - Secuencia editorial con revelado de texto de Space UI.
 - Trabajo seleccionado con imágenes originales de los proyectos y vista previa sincronizada con el scroll.
-- Archivo experimental que se recorre horizontalmente en escritorio y mediante desplazamiento táctil en móvil.
+- Carrusel interactivo de lenguajes y herramientas, con controles y selección directa.
+- Manifiesto con ondas de señal que se desplazan a distintas profundidades con el scroll.
+- Archivo experimental contado en cuatro capítulos verticales con diagramas ASCII y un hilo binario.
 - Navegación superpuesta, control de pausa y soporte para `prefers-reduced-motion`.
 - HeroUI para el control principal, ReactBits `DecryptedText` para el saludo y GSAP ScrollTrigger para las escenas.
 
