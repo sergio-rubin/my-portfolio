@@ -23,6 +23,6 @@ npm run build
 - Scroll nativo suavizado con GSAP ScrollSmoother, barra personalizada y escenas fijadas con ScrollTrigger. Enter limpia el hero antes de revelar el directorio sin inclinación; los enlaces internos usan el desplazamiento del plugin.
 - HeroUI para el control principal, Space UI `ScrollTextReveal` en la presentación y ReactBits `DecryptedText` para el saludo.
 
-Los recursos locales en `public/media/` proceden de [W.A Coding](https://wacoding.org/), [Habitatum](https://habitatum.com.mx/), [Radar Cultural](https://radarcultural.mx/), [ALFA](https://alf4.org/) y el [perfil de GitHub de Sergio](https://github.com/sergio-rubin). Luna y Stoqio usan composiciones editoriales creadas con CSS. Las URLs, roles y textos están en `src/App.tsx`.
+Los recursos locales en `public/media/` proceden de [W.A Coding](https://wacoding.org/), [Habitatum](https://habitatum.com.mx/), [Radar Cultural](https://radarcultural.mx/), [ALFA](https://alf4.org/), [Luna](https://luna.alf4.org/) y el [perfil de GitHub de Sergio](https://github.com/sergio-rubin). Luna combina su icono oficial con una composición editorial creada con CSS; Stoqio usa una composición CSS porque sigue en desarrollo. Las URLs, roles y textos están en `src/App.tsx`.
 
 La investigación y las decisiones están en [DESIGN_NOTES.md](DESIGN_NOTES.md).
