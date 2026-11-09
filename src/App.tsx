@@ -134,8 +134,8 @@ function App() {
         ScrollTrigger.create({ trigger: scene, start: 'top 58%', end: 'bottom 42%', onEnter: () => setActive(index), onEnterBack: () => setActive(index) })
         const visual = scene.querySelector('.project-scene-visual')
         const title = scene.querySelector('.project-scene-title')
-        gsap.fromTo(visual, { yPercent: 20, scale: 0.78, rotation: index % 2 ? 3 : -3, clipPath: 'inset(12% 12% 12% 12% round 24px)' }, { yPercent: -8, scale: 1, rotation: 0, clipPath: 'inset(0% 0% 0% 0% round 12px)', ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: 0.75 } })
-        gsap.fromTo(title, { xPercent: index % 2 ? 17 : -17, opacity: 0.18 }, { xPercent: index % 2 ? -6 : 6, opacity: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom 55%', scrub: 0.7 } })
+        gsap.fromTo(visual, { yPercent: 16, scale: 0.84, rotation: index % 2 ? 2 : -2, clipPath: 'inset(6% 0% 6% 0% round 20px)' }, { yPercent: -8, scale: 1, rotation: 0, clipPath: 'inset(0% 0% 0% 0% round 12px)', ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: 0.75 } })
+        gsap.fromTo(title, { xPercent: index % 2 ? 12 : -12, opacity: 0.55 }, { xPercent: index % 2 ? -6 : 6, opacity: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom 55%', scrub: 0.7 } })
       })
       const statementWords = gsap.utils.toArray<HTMLElement>('.statement-word')
       let lastWord = -1
