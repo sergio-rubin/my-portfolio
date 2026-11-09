@@ -30,6 +30,20 @@ html::-webkit-scrollbar-thumb:hover { background: #ff806b; }
 }
 
 .contact-section h2 { line-height: .91; letter-spacing: -.075em; }
+.archive-story.story-3 .archive-story-copy { max-width: none; }
+
+@media (min-width: 1200px) {
+  .archive-story.story-3 .archive-story-art > span { font-size: clamp(43px, 3vw, 48px); }
+  .archive-story.story-3 .archive-story-art pre { font-size: 10px; }
+}
+
+@media (min-width: 1001px) {
+  .scene-habitatum .project-scene-title h3 { font-size: clamp(58px, 6.2vw, 110px); }
+}
+
+@media (min-width: 621px) and (max-width: 720px) {
+  .archive-story.story-3 h3 { font-size: clamp(32px, 5.2vw, 38px); }
+}
 
 @media (max-width: 620px) {
   .contact-section h2 { line-height: .98; letter-spacing: -.065em; }

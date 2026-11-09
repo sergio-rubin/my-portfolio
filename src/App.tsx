@@ -94,7 +94,7 @@ function App() {
     const smoother = ScrollSmoother.create({
       wrapper: '#smooth-wrapper',
       content: '#smooth-content',
-      smooth: 1.05,
+      smooth: 0.72,
       smoothTouch: 0.12,
       effects: false,
       onFocusIn: (_self, event) =>
@@ -158,7 +158,19 @@ function App() {
   const visitSection = (id: string) => {
     setMenuOpen(false)
     navigateTo(id)
-    window.requestAnimationFrame(() => document.querySelector<HTMLElement>(`#${id} h2`)?.focus({ preventScroll: true }))
+    const target = document.getElementById(id)
+    const heading = target?.querySelector<HTMLElement>('h2')
+    if (!target || !heading) return
+    const started = performance.now()
+    const focusOnArrival = () => {
+      if (window.location.hash !== `#${id}`) return
+      if (Math.abs(target.getBoundingClientRect().top) < 180) {
+        heading.focus({ preventScroll: true })
+      } else if (performance.now() - started < 30000) {
+        window.requestAnimationFrame(focusOnArrival)
+      }
+    }
+    window.requestAnimationFrame(focusOnArrival)
   }
 
   const exploreWork = () => {
@@ -184,7 +196,13 @@ function App() {
     const previousOverflow = document.documentElement.style.overflow
     document.documentElement.style.overflow = 'hidden'
     const links = Array.from(menuPanel.current?.querySelectorAll<HTMLAnchorElement>('a') ?? [])
-    links[0]?.focus()
+    const started = performance.now()
+    let focusFrame = 0
+    const focusFirstLink = () => {
+      if (document.activeElement === menuButton.current || document.activeElement === document.body) links[0]?.focus()
+      if (performance.now() - started < 1000) focusFrame = window.requestAnimationFrame(focusFirstLink)
+    }
+    focusFrame = window.requestAnimationFrame(focusFirstLink)
     const focusable: HTMLElement[] = [menuButton.current, ...links].filter((item): item is HTMLButtonElement | HTMLAnchorElement => item !== null)
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -200,6 +218,7 @@ function App() {
     }
     document.addEventListener('keydown', handleKey)
     return () => {
+      window.cancelAnimationFrame(focusFrame)
       document.removeEventListener('keydown', handleKey)
       document.documentElement.style.overflow = previousOverflow
     }
@@ -321,7 +340,7 @@ function App() {
   return <div className={`portfolio ${motionOff ? 'motion-off' : ''}`} ref={root}>
     <AsciiCursorTrail paused={motionOff}/>
     <a className="skip-link" href="#contenido" onClick={event => { event.preventDefault(); navigateTo('contenido'); document.getElementById('contenido')?.focus({ preventScroll: true }) }}>Saltar al contenido</a>
-    <header className="site-header"><a className="site-mark" href="#inicio" onClick={event => { event.preventDefault(); setMenuOpen(false); navigateTo('inicio') }} aria-label="Sergio Rubín, inicio"><span>sr</span><b>_</b></a><span className="header-coordinate">Puebla, México <span className="header-signal">●</span> disponible para colaborar</span><div className="header-actions"><a className="header-contact" href="#contacto" onClick={event => { event.preventDefault(); navigateTo('contacto') }}>Hablemos <ArrowUpRight size={14}/></a><button className="icon-button motion-button" type="button" aria-label={reduced ? 'Movimiento reducido por preferencia del sistema' : motionOff ? 'Activar animaciones' : 'Pausar animaciones'} aria-pressed={motionOff} disabled={reduced} onClick={() => setPaused(!paused)}>{reduced ? <Pause size={17}/> : motionOff ? <Play size={17}/> : <Pause size={17}/>}</button><button ref={menuButton} className="icon-button menu-button" type="button" aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={menuOpen} aria-controls="site-menu" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={21}/> : <Menu size={21}/>}</button></div></header>
+    <header className="site-header"><a className="site-mark" href="#inicio" onClick={event => { event.preventDefault(); setMenuOpen(false); navigateTo('inicio') }} aria-label="Sergio Rubín, inicio"><span>sr</span><b>_</b></a><span className="header-coordinate">Puebla, México <span className="header-signal">●</span> disponible para colaborar</span><div className="header-actions"><a className="header-contact" href="#contacto" onClick={event => { event.preventDefault(); navigateTo('contacto') }}>Hablemos <ArrowUpRight size={14}/></a><button className="icon-button motion-button" type="button" aria-label={reduced ? 'Movimiento reducido por preferencia del sistema' : motionOff ? 'Activar animaciones' : 'Pausar animaciones'} aria-pressed={motionOff} disabled={reduced} onClick={() => setPaused(!paused)}>{reduced ? <Pause size={17}/> : motionOff ? <Play size={17}/> : <Pause size={17}/>}</button><button ref={menuButton} className="icon-button menu-button" type="button" aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={menuOpen} aria-controls="site-menu" onClick={() => setMenuOpen(!menuOpen)} onKeyUp={event => { if (event.key === 'Enter' && menuButton.current?.getAttribute('aria-expanded') === 'true') menuPanel.current?.querySelector<HTMLAnchorElement>('a')?.focus() }}>{menuOpen ? <X size={21}/> : <Menu size={21}/>}</button></div></header>
     <div className="site-progress" aria-hidden="true"><i className="site-progress-fill"/></div>
     <div className="terminal-bridge" aria-hidden="true"><i className="bridge-ring"/><i className="bridge-wipe"/><span className="bridge-key">Enter ↵</span></div>
     <div id="site-menu" ref={menuPanel} className={`menu-overlay ${menuOpen ? 'is-open' : ''}`} aria-hidden={!menuOpen}><nav aria-label="Navegación principal"><a href="#trabajo" onClick={event => { event.preventDefault(); visitSection('trabajo') }}>Trabajo <span>01</span></a><a href="#stack" onClick={event => { event.preventDefault(); visitSection('stack') }}>Stack <span>02</span></a><a href="#archivo" onClick={event => { event.preventDefault(); visitSection('archivo') }}>Archivo <span>03</span></a><a href="#sobre-mi" onClick={event => { event.preventDefault(); visitSection('sobre-mi') }}>Sobre mí <span>04</span></a><a href="#contacto" onClick={event => { event.preventDefault(); visitSection('contacto') }}>Contacto <span>05</span></a></nav><p>Sergio Rubín / Desarrollador de software</p></div>
