@@ -37,3 +37,18 @@
 @media(min-width:901px){.hero-intro{top:17%}.hero-name{font-size:16vw;bottom:7%}.hero-caption{bottom:8%}.hero-sculpture-wrap{z-index:5}}
 @media(max-width:900px){.portfolio{overflow:clip}.hero-intro{top:17%}.hero-name{font-size:18vw;bottom:12%}.hero-sculpture-wrap{z-index:5}}
 @media(max-width:620px){.hero-intro{top:20%}.hero-name{font-size:23vw;bottom:20%}.hero-caption{bottom:10%}.hero-sculpture-wrap{inset:14% -4% 9% -10%}}
+
+/* Scene changes stay within the requested dark-only palette. */
+.statement{background:#161616;color:#f2f2ef}
+.statement-ascii{color:#818181}
+.archive-section{background:#1a1a1a;color:#f2f2ef}
+.archive-card{border:1px solid #ffffff31}
+.archive-progress>div{background:#ffffff5c}
+.archive-progress-fill{background:#f2f2ef}
+.contact-section,.site-footer{background:#202020;color:#f2f2ef}
+.contact-background{color:#ffffff0b}
+.contact-section h2 i{color:#818181}
+.contact-actions{border-bottom-color:#ffffff80}
+.contact-primary{border-bottom-color:#f2f2ef}
+.site-footer{color:#a4a4a4}
+.site-footer a{color:#f2f2ef}

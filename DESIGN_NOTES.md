@@ -15,7 +15,7 @@ La identidad toma el lenguaje del código y la curiosidad técnica de Sergio. **
 
 ## Sistema
 
-- **Color:** negro `#050505`, superficie `#090909`, gris `#777`, blanco cálido `#f2f2ef`, pausa de lectura `#e7e7e3`. Solo modo oscuro para la interfaz; las dos secciones claras son escenas de contraste, no un tema claro.
+- **Color:** negro `#050505`, superficie `#090909`, pausas de lectura `#161616` y `#202020`, gris `#777`, blanco cálido `#f2f2ef`. Todas las escenas permanecen en modo oscuro.
 - **Tipo:** Bricolage Grotesque Variable con peso alto y espaciado comprimido para la firma y titulares; Azeret Mono para la gramática ASCII, ubicaciones y metadatos.
 - **Composición:** portada fija durante el primer scroll; la escultura `SR` en profundidad cruza la firma. El manifiesto cambia el ritmo antes del trabajo. La imagen activa permanece fija frente a nombres y contexto. El archivo se mueve horizontalmente mientras se desplaza en vertical.
 - **Movimiento:** una entrada coordinada, una transición de portada, cambios de foco entre casos y un recorrido horizontal. El control de pausa detiene WebGL y GSAP, y convierte el archivo en un carrusel manual. `prefers-reduced-motion` activa el mismo comportamiento.
