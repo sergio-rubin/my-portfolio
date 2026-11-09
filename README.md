@@ -1,0 +1,27 @@
+# Sergio Rubín — Portafolio
+
+Portafolio personal de Sergio Rubín: proyectos de software, colaboraciones y experimentos. La dirección visual combina tipografía expresiva, una paleta monocromática, detalles de terminal y movimiento ligado al desplazamiento.
+
+## Desarrollo local
+
+```bash
+npm install
+npm run dev
+```
+
+Para generar la versión de producción:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Tecnología
+
+React, TypeScript, Vite, Tailwind CSS, HeroUI, componentes de Space UI, GSAP ScrollTrigger y Motion. La galería horizontal se adapta a una lista deslizable en pantallas pequeñas y respeta `prefers-reduced-motion`.
+
+## Contenido
+
+Los enlaces de proyectos y redes se mantienen en [`src/App.tsx`](src/App.tsx). Las vistas de las tarjetas son composiciones de CSS; no se presentan como capturas de los sitios enlazados.
+
+Hecho con intención y un poco de ASCII `</>`.
