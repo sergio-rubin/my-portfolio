@@ -14,12 +14,18 @@ export function HeroTerminal({ motionOff }: { motionOff: boolean }) {
       focusHeading()
       return
     }
-    window.addEventListener('scrollend', () => {
-      if (Math.abs(work.getBoundingClientRect().top) < 80) focusHeading()
-    }, { once: true })
     const smoother = ScrollSmoother.get()
     if (smoother) smoother.scrollTo(work, true, 'top top')
     else work.scrollIntoView({ behavior: 'smooth' })
+    const started = performance.now()
+    const focusOnArrival = () => {
+      if (Math.abs(work.getBoundingClientRect().top) < 100) {
+        focusHeading()
+      } else if (performance.now() - started < 15000) {
+        window.requestAnimationFrame(focusOnArrival)
+      }
+    }
+    window.requestAnimationFrame(focusOnArrival)
   }
   return <div className="hero-terminal" aria-label="Terminal: cd Proyectos">
     <div className="terminal-top"><span className="terminal-lights" aria-hidden="true"><i/><i/><i/></span><span>sergio@portfolio:~</span><span>01 / 06</span></div>
