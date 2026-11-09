@@ -34,6 +34,13 @@ const archiveArt = [
   `•••••\n─────\n •••\n─────\n  •`,
   `┌─ IDEA ─┐\n│ 01 → ∞ │\n└────────┘`,
 ]
+const penguinArt = String.raw`   .--.
+  |o_o |
+  |:_/ |
+ //   \
+(|     |)
+ /'\_/'\
+ \___)=(___/`
 const socials = [
   ['GitHub', 'https://github.com/sergio-rubin'],
   ['Instagram', 'https://www.instagram.com/zoms.erchxd/'],
@@ -151,13 +158,7 @@ function App() {
       <StackCarousel motionOff={motionOff}/>
       <section className="interlude" aria-label="Manifiesto"><div className="interlude-stage">
         <div className="signal-waves" aria-hidden="true"><i className="signal-wave wave-one"/><i className="signal-wave wave-two"/><i className="signal-wave wave-three"/><i className="signal-wave wave-four"/><span className="signal-tick tick-one">01 / ∞</span><span className="signal-tick tick-two">+ + +</span><span className="signal-tick tick-three">101101</span></div>
-        <div className="interlude-logo" aria-hidden="true"><span>sr</span><i>_</i><small>UNA FIRMA / MUCHAS FORMAS DE CONSTRUIR</small></div><span className="interlude-code">&lt; build what matters /&gt;</span><p>Curiosidad para empezar.<br/><span>Criterio para terminar.</span></p><pre className="interlude-penguin" aria-label="Pingüino de Linux en arte ASCII">{`   .--.
-  |o_o |
-  |:_/ |
- //   \
-(|     |)
- /'\_/'\
- \___)=(___/`}</pre><div className="interlude-lines" aria-hidden="true">{'/ '.repeat(36)}</div>
+        <div className="interlude-logo" aria-hidden="true"><span>sr</span><i>_</i><small>UNA FIRMA / MUCHAS FORMAS DE CONSTRUIR</small></div><span className="interlude-code">&lt; build what matters /&gt;</span><p>Curiosidad para empezar.<br/><span>Criterio para terminar.</span></p><pre className="interlude-penguin" aria-label="Pingüino de Linux en arte ASCII">{penguinArt}</pre><div className="interlude-lines" aria-hidden="true">{'/ '.repeat(36)}</div>
       </div></section>
       <section className="archive-section" id="archivo" aria-labelledby="archive-title">
         <div className="archive-header"><div><span>[ Archivo / laboratorio ]</span><h2 id="archive-title">El laboratorio<br/><i>sigue abierto.</i></h2></div><p>Algunas preguntas se convierten en productos. Otras abren caminos que sigo explorando, solo o con otras personas.</p></div>
