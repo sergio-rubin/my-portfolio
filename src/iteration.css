@@ -110,7 +110,7 @@
 .motion-off .ascii-rain { opacity: .12; }
 
 .interlude { height: 132svh; min-height: 1020px; background: #101010; }
-.interlude-stage { background: linear-gradient(#101010 0%, #171717 27%, #1b1b1b 75%); }
+.interlude-stage { background: linear-gradient(#101010 0%, #171717 27%, #1b1b1b 72%, #151515 100%); }
 .interlude-stage::after { content: '0 1 + 0 1 + 0 1 + 0 1 + 0 1 + 0 1 + 0 1 + 0 1 +'; position: absolute; z-index: 2; top: 2%; left: -10%; right: -10%; overflow: hidden; white-space: nowrap; font: 9px 'Azeret Mono', monospace; letter-spacing: 1.2vw; color: #ff624845; opacity: .55; transform: rotate(-2deg); }
 
 @media (max-width: 900px) {
