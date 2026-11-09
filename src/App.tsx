@@ -22,6 +22,14 @@ const social = [
   ['Discord', 'https://discordapp.com/users/674052139789844551'],
   ['Facebook', 'https://www.facebook.com/profile.php?id=100063843164987&locale=es_LA'],
 ]
+const asciiMark = [
+  '  _____  _____',
+  ' / ____||  __ \\',
+  '| (___  | |__) |',
+  ' \\___ \\ |  _  /',
+  ' ____) || | \\ \\',
+  '|_____/ |_|  \\_\\',
+].join('\n')
 
 function ProjectVisual({ kind }: { kind: string }) {
   return <div className={'project-visual pv-' + kind} aria-hidden="true">
@@ -41,6 +49,8 @@ function App() {
   const track = useRef<HTMLDivElement>(null)
   const [menuOpen, setMenuOpen] = useState(false)
   const [reduced, setReduced] = useState(false)
+  const [motionPaused, setMotionPaused] = useState(false)
+  const motionOff = reduced || motionPaused
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -52,25 +62,17 @@ function App() {
   useEffect(() => {
     if (!root.current || !work.current || !track.current) return
     const context = gsap.context(() => {
-      if (!reduced) gsap.from('.reveal', { opacity: 0, y: 32, duration: 0.9, stagger: 0.11, ease: 'power3.out', delay: 0.1, clearProps: 'all' })
+      if (!motionOff) gsap.from('.reveal', { opacity: 0, y: 16, duration: 0.55, stagger: 0.06, ease: 'power3.out', delay: 0.05, clearProps: 'all' })
       const mm = gsap.matchMedia()
-      mm.add('(prefers-reduced-motion: no-preference)', () => {
+      if (!motionOff) mm.add('(prefers-reduced-motion: no-preference)', () => {
         const parallax = gsap.to('.hero-playground', {
           y: 48,
           ease: 'none',
           scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true },
         })
-        const headings = gsap.utils.toArray<HTMLElement>('.section-heading h2, .about-layout h2, .more-head h2, .experience-section h2, .contact-main h2')
-        const reveals = headings.map((heading) => gsap.from(heading, {
-          y: 35,
-          opacity: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: heading, start: 'top 88%', once: true },
-        }))
-        return () => { parallax.kill(); reveals.forEach((animation) => animation.kill()) }
+        return () => parallax.kill()
       })
-      mm.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
+      if (!motionOff) mm.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
         const section = work.current!
         const rail = track.current!
         const distance = () => Math.max(0, rail.scrollWidth - section.clientWidth + 40)
@@ -91,11 +93,11 @@ function App() {
       return () => mm.revert()
     }, root)
     return () => context.revert()
-  }, [reduced])
+  }, [motionOff])
 
   const closeMenu = () => setMenuOpen(false)
-  const goToWork = () => document.getElementById('trabajos')?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' })
-  return <div ref={root} className="site-shell">
+  const goToWork = () => document.getElementById('trabajos')?.scrollIntoView({ behavior: motionOff ? 'auto' : 'smooth' })
+  return <div ref={root} className={motionOff ? 'site-shell motion-off' : 'site-shell'}>
     <a className="skip-link" href="#contenido">Saltar al contenido</a>
     <header className="site-header">
       <a className="brand" href="#inicio" onClick={closeMenu}>Sergio Rubín<span className="brand-cursor">_</span></a>
@@ -115,12 +117,13 @@ function App() {
             <div className="hero-actions reveal"><Button className="primary-button" variant="primary" onPress={goToWork}>Ver proyectos <ArrowUpRight size={18}/></Button><a className="outline-button" href="https://github.com/sergio-rubin" target="_blank" rel="noreferrer"><Github size={19}/> GitHub</a></div>
           </div>
           <div className="hero-playground reveal" aria-label="Cuadrícula interactiva que responde al cursor">
-            <ProximityGrid cellSize={5} gap={17} proximity={24} inset={30} radius="full" className="hero-grid"/>
+            <ProximityGrid cellSize={5} gap={17} proximity={24} inset={30} radius="full" interactive={!motionOff} className="hero-grid"/>
+            <pre className="ascii-mark" aria-hidden="true">{asciiMark}</pre>
             <div className="playground-corners" aria-hidden="true"><i/><i/><i/><i/></div>
             <div className="playground-code" aria-hidden="true"><span>&gt; sergio.rubin()</span><span>&nbsp; origin: Puebla, MX</span><span>&nbsp; role: software developer</span><span>&nbsp; founder: W.A Coding</span><span>&nbsp; focus: products / web / systems</span><span className="terminal-cursor">▌</span></div>
           </div>
         </div>
-        <div className="hero-bottom"><span>01 / INTRODUCCIÓN</span><span>DESLIZA PARA EXPLORAR <ArrowDown size={14}/></span></div>
+        <div className="hero-bottom"><span>01 / INTRODUCCIÓN</span><div className="hero-bottom-actions">{reduced ? <span>MOVIMIENTO REDUCIDO</span> : <button className="motion-toggle" type="button" aria-pressed={motionPaused} onClick={() => setMotionPaused(!motionPaused)}>{motionPaused ? 'REANUDAR MOVIMIENTO' : 'PAUSAR MOVIMIENTO'}</button>}<span>DESLIZA PARA EXPLORAR <ArrowDown size={14}/></span></div></div>
       </section>
 
       <section className="work-section" id="trabajos" ref={work} aria-labelledby="work-title">
@@ -138,7 +141,7 @@ function App() {
         <div className="about-label"><span className="eyebrow"><span className="slashes">//</span> SOBRE MÍ</span><span>02 / PERSONA DETRÁS DEL CÓDIGO</span></div>
         <div className="about-layout"><h2 id="about-title">Curiosidad como motor.<br/>Código como lenguaje<span className="title-dot">.</span></h2><div className="about-copy"><span className="file-label">~/sergio/about.txt</span><p>Soy Sergio Rubín, estudiante de Ingeniería en Ciencias de la Computación en la BUAP y fundador de <a href="https://wacoding.org/" target="_blank" rel="noreferrer">W.A Coding ↗</a>.</p><p>Trabajo entre producto, frontend, infraestructura y coordinación técnica. Me gusta unir ideas ambiciosas con decisiones claras y software que resista el uso real.</p><div className="about-meta"><span>PUEBLA, MÉXICO</span><span>WEB / SISTEMAS / EXPERIENCIAS</span></div></div></div>
       </section>
-      <section className="manifesto-section" aria-label="Forma de trabajar"><span className="eyebrow"><span className="slashes">//</span> UNA IDEA QUE ME GUÍA</span>{reduced ? <p className="manifesto">No me conformo con que funcione. Quiero que cada interacción tenga intención.</p> : <ScrollTextReveal as="p" text="No me conformo con que funcione. Quiero que cada interacción tenga intención." splitBy="word" className="manifesto" inactiveOpacity={0.2} revealRatio={0.85}/>}</section>
+      <section className="manifesto-section" aria-label="Forma de trabajar"><span className="eyebrow"><span className="slashes">//</span> UNA IDEA QUE ME GUÍA</span>{motionOff ? <p className="manifesto">No me conformo con que funcione. Quiero que cada interacción tenga intención.</p> : <ScrollTextReveal as="p" text="No me conformo con que funcione. Quiero que cada interacción tenga intención." splitBy="word" className="manifesto" inactiveOpacity={0.2} revealRatio={0.85}/>}</section>
       <section className="more-section" aria-labelledby="more-title"><div className="more-head"><span className="eyebrow"><span className="slashes">//</span> LABORATORIO PERSONAL</span><h2 id="more-title">También construyo<br/>por curiosidad<span className="title-dot">.</span></h2></div><div className="more-list">
         <a className="more-row" href="https://github.com/W-A-CODING/d-dev" target="_blank" rel="noreferrer"><span>01</span><div><h3>d-dev</h3><p>Aplicación de escritorio de cálculos y gráficas, desarrollada con Giovanny Vélez. Una parte especial de mis inicios.</p></div><ArrowUpRight size={20}/></a>
         <a className="more-row" href="https://github.com/sergio-rubin/grafIA" target="_blank" rel="noreferrer"><span>02</span><div><h3>grafIA</h3><p>Juegos matemáticos interactivos que exploran regresión polinomial y reconocimiento de funciones.</p></div><ArrowUpRight size={20}/></a>
