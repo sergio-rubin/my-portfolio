@@ -73,6 +73,17 @@
   .project-scene-title h3 { font-size: clamp(60px, 8vw, 90px); }
   .project-scene-visual { left: 34%; top: 27%; width: 62vw; height: 52%; }
 }
+@media (min-width: 621px) and (max-width: 760px) {
+  .work-heading { display: flex; flex-direction: column; align-items: flex-start; min-height: 60svh; padding: 95px 25px 42px; gap: 24px; }
+  .work-heading h2 { font-size: clamp(68px, 11vw, 82px); }
+  .work-heading-cue { margin-top: auto; }
+  .project-scene { min-height: 900px; height: 105svh; }
+  .project-scene-title { top: 11%; width: calc(100% - 50px); }
+  .project-scene-title h3 { font-size: clamp(58px, 11vw, 76px); margin-bottom: 14px; }
+  .project-scene-title p { max-width: 470px; margin-bottom: 14px; }
+  .project-scene-title small { max-width: 330px; }
+  .project-scene-visual { left: 5%; top: 45%; width: 90%; height: 42%; }
+}
 @media (max-width: 620px) {
   .hero { height: 180svh; }
   .hero-terminal { width: calc(100% - 32px); bottom: 20%; border-radius: 13px; }
