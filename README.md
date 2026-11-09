@@ -13,7 +13,7 @@ npm run build
 ## Experiencia
 
 - Portada tipográfica con escultura `SR` de puntos WebGL en Three.js, retícula cinematográfica, estela ASCII y una terminal que escribe `cd Proyectos` durante el scroll. El botón principal conduce al comando y Enter abre los proyectos.
-- Seis proyectos en escenas verticales de pantalla completa. Cada escena combina contexto, una composición propia, respuesta al cursor y un enlace directo; Stoqio se identifica como producto en desarrollo.
+- Seis proyectos en escenas verticales de pantalla completa. Las composiciones alternan su dirección en escritorio; la visual responde al cursor y la acción de abrir lo sigue. Stoqio se identifica como producto en desarrollo.
 - Lectura fija después de los casos, con zoom e iluminación progresiva de palabras, que conduce al stack.
 - Carrusel automático de lenguajes y herramientas con controles, colores de marca atenuados, dibujos ASCII y lluvia de caracteres con ondas tipográficas.
 - Manifiesto conectado a la lluvia del stack, con ondas, firma `sr_` y un pingüino ASCII que entran durante el scroll.

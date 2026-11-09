@@ -154,6 +154,15 @@ function App() {
     scene.style.setProperty('--pointer-y', `${y * 100}%`)
     scene.style.setProperty('--tilt-x', `${(0.5 - y) * 5}deg`)
     scene.style.setProperty('--tilt-y', `${(x - 0.5) * 5}deg`)
+    const visual = scene.querySelector<HTMLElement>('.project-scene-visual')
+    if (!visual) return
+    const visualRect = visual.getBoundingClientRect()
+    const visualX = (event.clientX - visualRect.left) / visualRect.width
+    const visualY = (event.clientY - visualRect.top) / visualRect.height
+    scene.style.setProperty('--visual-pointer-x', `${visualX * 100}%`)
+    scene.style.setProperty('--visual-pointer-y', `${visualY * 100}%`)
+    scene.style.setProperty('--open-x', `${Math.min(88, Math.max(12, visualX * 100))}%`)
+    scene.style.setProperty('--open-y', `${Math.min(82, Math.max(18, visualY * 100))}%`)
   }
 
   useEffect(() => {
