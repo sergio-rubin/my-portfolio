@@ -1,31 +1,24 @@
 # Sergio Rubín — Portafolio
 
-Portafolio personal de Sergio Rubín: proyectos de software, colaboraciones y experimentos. La dirección visual combina tipografía expresiva, una paleta monocromática, detalles de terminal y movimiento ligado al desplazamiento.
+Landing personal de Sergio Rubín. Presenta proyectos publicados, experimentos, colaboraciones y enlaces sociales en una narrativa monocromática.
 
-## Desarrollo local
+## Desarrollo
 
 ```bash
 npm install
 npm run dev
-```
-
-Para generar la versión de producción:
-
-```bash
 npm run build
-npm run preview
 ```
 
-## Tecnología
+## Experiencia
 
-React, TypeScript, Vite, Tailwind CSS, HeroUI, componentes de Space UI, GSAP ScrollTrigger y Motion. La galería horizontal se adapta a una lista deslizable en pantallas pequeñas y respeta `prefers-reduced-motion`.
+- Portada tipográfica con escultura `SR` creada con puntos WebGL en Three.js. Responde al cursor y al desplazamiento.
+- Secuencia editorial con revelado de texto de Space UI.
+- Trabajo seleccionado con imágenes originales de los proyectos y vista previa sincronizada con el scroll.
+- Archivo experimental que se recorre horizontalmente en escritorio y mediante desplazamiento táctil en móvil.
+- Navegación superpuesta, control de pausa y soporte para `prefers-reduced-motion`.
+- HeroUI para el control principal, ReactBits `DecryptedText` para el saludo y GSAP ScrollTrigger para las escenas.
 
-El control **Pausar movimiento** también cambia la galería a desplazamiento manual. Las skills oficiales de HeroUI y Space Motion están disponibles solo en este proyecto, dentro de `.agents/skills/`.
+Las imágenes locales en `public/media/` proceden de [Habitatum](https://habitatum.com.mx/), [Radar Cultural](https://radarcultural.mx/), [ALFA](https://alf4.org/) y el [perfil de GitHub de Sergio](https://github.com/sergio-rubin). Las composiciones superpuestas son interpretaciones editoriales del trabajo. Las URLs, roles y textos están en `src/App.tsx`.
 
-## Contenido
-
-Los enlaces de proyectos y redes se mantienen en [`src/App.tsx`](src/App.tsx). Las vistas de las tarjetas son composiciones de CSS; no se presentan como capturas de los sitios enlazados.
-
-Las observaciones de las referencias y las decisiones visuales están en [`DESIGN_NOTES.md`](DESIGN_NOTES.md).
-
-Hecho con intención y un poco de ASCII `</>`.
+La investigación y las decisiones están en [DESIGN_NOTES.md](DESIGN_NOTES.md).

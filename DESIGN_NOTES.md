@@ -1,30 +1,27 @@
 # Dirección visual — Sergio Rubín
 
-Documento de referencia para las siguientes iteraciones del portafolio. Se basa en observación directa de las páginas, no en imágenes generadas.
+La identidad toma el lenguaje del código y la curiosidad técnica de Sergio. **Space UI** se refiere a la biblioteca de [spaceui.one](https://spaceui.one/), no a una estética espacial. Todas las referencias se observaron en sus sitios; no se generaron imágenes para esta investigación.
 
-## Lo que observé
+## Referencias observadas
 
-| Referencia | Interacción y composición | Aprendizaje aplicable |
+| Sitio | Hallazgo | Decisión aplicada |
 | --- | --- | --- |
-| [Space UI](https://www.spaceui.one/) | Componentes pequeños con respuesta táctil, tarjetas oscuras de contraste controlado y una navegación compacta. La galería muestra cada comportamiento en su contexto. | Usar componentes interactivos como detalles precisos, sin llenar todas las secciones de efectos. |
-| [HeroUI](https://heroui.com/) | Portada de tipografía limpia, pocas llamadas a la acción y módulos con estados legibles. La transición entre secciones conserva ritmo y espacio. | Mantener la jerarquía clara y controles accesibles, con movimiento que refuerce el contenido. |
-| [Kott Studio](https://kott.studio/) | Una escena de apertura dominante evoluciona con el scroll; el trabajo aparece en una composición partida de nombres grandes y vista previa. Los casos incluyen contexto y decisiones, además de imágenes. | Darle a la portada una pieza propia y reservar el mayor movimiento para el recorrido de proyectos. |
-| [Cipher](https://cipher.tv/) | Lienzo negro de pantalla completa; el desplazamiento recorre un conjunto de piezas y destaca una a la vez mientras atenúa las demás. | Usar foco y profundidad para indicar qué proyecto está activo. Evitar una interfaz cargada. |
-| [Mike Wilcock](https://mikewilcockdesign.com/) | Nombre a escala monumental, presentación breve en los extremos, proyectos con vista previa sincronizada y otra galería que admite arrastre o scroll. Ofrece un control para pausar el movimiento. | Hacer que el nombre y el trabajo sean protagonistas y conservar una alternativa clara para usuarios con movimiento reducido. |
+| [Space UI](https://spaceui.one/) | Componentes táctiles de apariencia sobria y revelados que acompañan la lectura. | `ScrollTextReveal` en el manifiesto, sin extenderlo a cada bloque. |
+| [HeroUI](https://heroui.com/) | Controles claros, estados accesibles y superficies oscuras cuidadas. | Botón principal compuesto con HeroUI y navegación contrastada. |
+| [ReactBits](https://reactbits.dev/) | `DecryptedText` ofrece un pequeño momento interactivo de terminal. | Saludo descifrado, limitado a una línea. |
+| [Kott Studio](https://kott.studio/) | Una pieza dominante se transforma con el scroll; los trabajos alternan escala tipográfica e imagen. | Escultura WebGL en la portada y casos activos de gran formato. |
+| [Cipher](https://cipher.tv/) | El foco cambia entre proyectos, mientras el resto queda atenuado. | Lista con vista previa que pasa de desenfoque a nitidez. |
+| [Mike Wilcock](https://mikewilcockdesign.com/) | Nombre monumental, imágenes reales y galería horizontal en una secuencia narrativa. | Portada con el nombre como arquitectura, vista fija del trabajo y archivo horizontal. |
 
-## Sistema para este sitio
+## Sistema
 
-- **Color:** negro `#070707`, superficie `#101010`, gris oscuro `#191919`, texto `#f3f3f3`, secundario `#a9a9a9`. Solo modo oscuro.
-- **Tipo:** Bricolage Grotesque Variable para titulares y texto, Azeret Mono para datos de terminal y arte ASCII.
-- **Estructura:** presentación y pieza interactiva al inicio; proyectos principales en un recorrido horizontal; información personal y colaboraciones en secciones de lectura vertical.
-- **Movimiento:** entrada coordinada de la portada, desplazamiento horizontal ligado al scroll, parallax discreto y revelado de un manifiesto. Respetar `prefers-reduced-motion` y ofrecer pausa manual con galería desplazable.
-- **Identidad:** usar un monograma ASCII propio y pequeñas señales de terminal. No usar planetas, órbitas ni símbolos espaciales para representar Space UI.
-- **Contenido:** conservar nombres, roles y enlaces reales; distinguir proyectos en desarrollo de los publicados. Las gráficas en CSS son interpretaciones editoriales, no capturas.
+- **Color:** negro `#050505`, superficie `#090909`, gris `#777`, blanco cálido `#f2f2ef`, pausa de lectura `#e7e7e3`. Solo modo oscuro para la interfaz; las dos secciones claras son escenas de contraste, no un tema claro.
+- **Tipo:** Bricolage Grotesque Variable con peso alto y espaciado comprimido para la firma y titulares; Azeret Mono para la gramática ASCII, ubicaciones y metadatos.
+- **Composición:** portada fija durante el primer scroll; la escultura `SR` en profundidad cruza la firma. El manifiesto cambia el ritmo antes del trabajo. La imagen activa permanece fija frente a nombres y contexto. El archivo se mueve horizontalmente mientras se desplaza en vertical.
+- **Movimiento:** una entrada coordinada, una transición de portada, cambios de foco entre casos y un recorrido horizontal. El control de pausa detiene WebGL y GSAP, y convierte el archivo en un carrusel manual. `prefers-reduced-motion` activa el mismo comportamiento.
+- **Material real:** fotografía de Habitatum, recursos de Radar Cultural, marca de ALFA y retrato del perfil de GitHub. La imagen de Luna se expresa con tipografía y estructura gráfica porque no se incorporó una captura del sitio.
+- **Accesibilidad:** enlace para saltar al contenido, etiquetas de navegación, foco visible, enlaces directos a los proyectos, imagen con texto alternativo, interacción usable con teclado y una experiencia móvil sin fijación horizontal.
 
-## Revisión antes de añadir efectos
+## Próximas decisiones de contenido
 
-1. ¿Ayuda a entender una acción, el cambio de sección o el proyecto activo?
-2. ¿Funciona también con teclado, tacto y movimiento reducido?
-3. ¿Sigue siendo fácil encontrar proyectos y contacto sin esperar una animación?
-
-Si la respuesta es no, simplificar el efecto.
+Las descripciones actuales son deliberadamente breves y se basan en los datos facilitados por Sergio y las páginas públicas. Los proyectos podrían crecer a casos individuales si Sergio aporta proceso, alcance, resultados y capturas aprobadas.

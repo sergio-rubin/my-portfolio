@@ -18,6 +18,7 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@spaceui": "https://www.spaceui.one/r/{name}.json"
+    "@spaceui": "https://www.spaceui.one/r/{name}.json",
+    "@react-bits": "https://reactbits.dev/r/{name}.json"
   }
 }
