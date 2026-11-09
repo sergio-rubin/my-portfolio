@@ -88,8 +88,6 @@ export function GlyphSculpture({ paused }: Props) {
       points.scale.setScalar(width < 620 ? 0.75 : width < 1000 ? 0.9 : 1.12)
       renderer.render(scene, camera)
     }
-    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting }, { threshold: 0 })
-    observer.observe(element)
     const ro = new ResizeObserver(resize)
     ro.observe(element)
     element.addEventListener('pointermove', onPointer)
@@ -102,7 +100,7 @@ export function GlyphSculpture({ paused }: Props) {
     const render = () => {
       if (!visible || document.hidden) return
       timer.update()
-      elapsed += timer.getDelta()
+      elapsed += Math.min(timer.getDelta(), 0.05)
       material.uniforms.uTime.value = paused ? 0 : elapsed
       material.uniforms.uScroll.value = paused ? 0 : scroll
       material.uniforms.uPointer.value.set(paused ? 0 : pointer.x, paused ? 0 : pointer.y)
@@ -111,11 +109,18 @@ export function GlyphSculpture({ paused }: Props) {
       points.position.y += ((paused ? 0 : scroll * 0.35) - points.position.y) * 0.035
       renderer.render(scene, camera)
     }
-    if (!paused) renderer.setAnimationLoop(render)
-    else renderer.render(scene, camera)
+    const syncLoop = () => {
+      if (paused || !visible || document.hidden) renderer.setAnimationLoop(null)
+      else renderer.setAnimationLoop(render)
+    }
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; syncLoop() }, { threshold: 0 })
+    observer.observe(element)
+    document.addEventListener('visibilitychange', syncLoop)
+    syncLoop()
     return () => {
       renderer.setAnimationLoop(null)
       observer.disconnect()
+      document.removeEventListener('visibilitychange', syncLoop)
       ro.disconnect()
       element.removeEventListener('pointermove', onPointer)
       window.removeEventListener('scroll', onScroll)

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import { Button } from '@heroui/react'
 import { ArrowDown, ArrowUpRight, Menu, Pause, Play, X } from 'lucide-react'
 import gsap from 'gsap'
@@ -13,6 +13,7 @@ import DecryptedText from './components/DecryptedText'
 
 gsap.registerPlugin(ScrollTrigger)
 const GlyphSculpture = lazy(() => import('./components/GlyphSculpture').then(module => ({ default: module.GlyphSculpture })))
+const sculptureFallback = <div className="glyph-sculpture glyph-fallback"><span className="glyph-static">SR</span></div>
 
 type Project = { name: string; field: string; role: string; year: string; story: string; url?: string; visual: string; scene: string }
 const projects: Project[] = [
@@ -81,8 +82,20 @@ function App() {
   const [active, setActive] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
   const [paused, setPaused] = useState(false)
-  const [reduced, setReduced] = useState(false)
+  const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const motionOff = paused || reduced
+
+  const moveProject = (event: ReactPointerEvent<HTMLAnchorElement>) => {
+    if (motionOff || event.pointerType === 'touch') return
+    const scene = event.currentTarget
+    const rect = scene.getBoundingClientRect()
+    const x = (event.clientX - rect.left) / rect.width
+    const y = (event.clientY - rect.top) / rect.height
+    scene.style.setProperty('--pointer-x', `${x * 100}%`)
+    scene.style.setProperty('--pointer-y', `${y * 100}%`)
+    scene.style.setProperty('--tilt-x', `${(0.5 - y) * 5}deg`)
+    scene.style.setProperty('--tilt-y', `${(x - 0.5) * 5}deg`)
+  }
 
   useEffect(() => {
     const query = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -169,13 +182,13 @@ function App() {
     <div className="site-progress" aria-hidden="true"><i className="site-progress-fill"/></div>
     <div className="terminal-bridge" aria-hidden="true"><i className="bridge-ring"/><i className="bridge-wipe"/><span className="bridge-key">Enter ↵</span></div>
     <div className={`menu-overlay ${menuOpen ? 'is-open' : ''}`} aria-hidden={!menuOpen}><nav aria-label="Navegación principal"><a href="#trabajo" onClick={() => setMenuOpen(false)}>Trabajo <span>01</span></a><a href="#stack" onClick={() => setMenuOpen(false)}>Stack <span>02</span></a><a href="#archivo" onClick={() => setMenuOpen(false)}>Archivo <span>03</span></a><a href="#sobre-mi" onClick={() => setMenuOpen(false)}>Sobre mí <span>04</span></a><a href="#contacto" onClick={() => setMenuOpen(false)}>Contacto <span>05</span></a></nav><p>Sergio Rubín / Desarrollador de software</p></div>
-    <main id="contenido"><section className="hero" id="inicio" aria-labelledby="hero-title"><div className="hero-stage"><div className="hero-topline"><span>Portfolio / 2026</span><span>Software, dirección técnica<br/>e ideas en construcción</span></div><div className="hero-film-grid" aria-hidden="true"><i/><i/><i/><i/></div><div className="hero-scan" aria-hidden="true"/><div className="hero-sculpture-wrap"><Suspense fallback={<div className="glyph-sculpture glyph-fallback"><span className="glyph-static">SR</span></div>}><GlyphSculpture paused={motionOff}/></Suspense><span className="hero-sculpture-caption">[ Mueve el cursor / observa ]</span></div><div className="hero-intro"><span className="intro-prompt">{motionOff ? '> hola, soy Sergio' : <DecryptedText text="> hola, soy Sergio" animateOn="view" speed={28} sequential characters="/<>_01SERGIO"/>}</span><p>Desarrollo productos digitales con intención: desde la primera interacción hasta la infraestructura que los sostiene.</p><Button className="hero-cta" variant="primary" onPress={() => document.getElementById('trabajo')?.scrollIntoView({ behavior: motionOff ? 'auto' : 'smooth' })}>Explorar mi trabajo <ArrowUpRight size={16}/></Button></div><h1 id="hero-title" className="hero-name"><span className="line-wrap"><span className="line">SERGIO</span></span><span className="line-wrap second"><span className="line">RUBÍN<span className="name-period">.</span></span></span></h1><div className="hero-caption"><span>Desarrollador de software</span><span>Fundador de W.A Coding</span></div><div className="scroll-cue"><span>Desliza para entrar</span><ArrowDown size={16}/></div><HeroTerminal motionOff={motionOff}/></div></section>
+    <main id="contenido"><section className="hero" id="inicio" aria-labelledby="hero-title"><div className="hero-stage"><div className="hero-topline"><span>Portfolio / 2026</span><span>Software, dirección técnica<br/>e ideas en construcción</span></div><div className="hero-film-grid" aria-hidden="true"><i/><i/><i/><i/></div><div className="hero-scan" aria-hidden="true"/><div className="hero-sculpture-wrap">{motionOff ? sculptureFallback : <Suspense fallback={sculptureFallback}><GlyphSculpture paused={false}/></Suspense>}<span className="hero-sculpture-caption">[ Mueve el cursor / observa ]</span></div><div className="hero-intro"><span className="intro-prompt">{motionOff ? '> hola, soy Sergio' : <DecryptedText text="> hola, soy Sergio" animateOn="view" speed={28} sequential characters="/<>_01SERGIO"/>}</span><p>Desarrollo productos digitales con intención: desde la primera interacción hasta la infraestructura que los sostiene.</p><Button className="hero-cta" variant="primary" onPress={() => document.getElementById('trabajo')?.scrollIntoView({ behavior: motionOff ? 'auto' : 'smooth' })}>Explorar mi trabajo <ArrowUpRight size={16}/></Button></div><h1 id="hero-title" className="hero-name"><span className="line-wrap"><span className="line">SERGIO</span></span><span className="line-wrap second"><span className="line">RUBÍN<span className="name-period">.</span></span></span></h1><div className="hero-caption"><span>Desarrollador de software</span><span>Fundador de W.A Coding</span></div><div className="scroll-cue"><span>Desliza para entrar</span><ArrowDown size={16}/></div><HeroTerminal motionOff={motionOff}/></div></section>
       <section className="selected-work" id="trabajo" aria-labelledby="work-title">
         <div className="work-entry-bar"><span>sergio@portfolio:~/Proyectos</span><span>06 historias / desplázate para explorar</span></div>
         <div className="work-heading"><span>[ Trabajo seleccionado / 06 ]</span><h2 id="work-title">Trabajo que<br/><i>toma forma.</i></h2><p>Productos publicados y uno que todavía estoy construyendo. Cada historia tiene su contexto, equipo y reto.</p><span className="work-heading-cue">↓ &nbsp; DESLIZA PARA ABRIR</span></div>
         <div className="project-gallery" aria-label="Proyectos seleccionados">{projects.map((project, i) => {
-          const inner = <><div className="project-scene-ambient" aria-hidden="true"><span>{project.name}</span><pre>{project.scene}</pre></div><div className="project-scene-top"><span>{String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}</span><span>{project.field}</span></div><div className="project-scene-title"><span>PROYECTO {String(i + 1).padStart(2, '0')}</span><h3>{project.name}</h3><p>{project.story}</p><small>{project.role}</small></div><div className="project-scene-visual"><ProjectFrame project={project}/><span className="project-scene-open">{project.url ? 'ABRIR PROYECTO ↗' : 'EN DESARROLLO'}</span></div><div className="project-scene-foot"><span>{project.year}</span><span>{project.url ? 'MUEVE EL CURSOR PARA EXPLORAR' : 'PRÓXIMAMENTE'}</span></div></>
-          return project.url ? <a href={project.url} target="_blank" rel="noreferrer" className={`project-scene scene-${project.visual} ${active === i ? 'is-active' : ''}`} key={project.name} onPointerMove={event => { if (motionOff) return; const rect = event.currentTarget.getBoundingClientRect(); event.currentTarget.style.setProperty('--pointer-x', `${((event.clientX - rect.left) / rect.width) * 100}%`); event.currentTarget.style.setProperty('--pointer-y', `${((event.clientY - rect.top) / rect.height) * 100}%`) }} onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)}>{inner}</a> : <article className={`project-scene scene-${project.visual} ${active === i ? 'is-active' : ''}`} key={project.name}>{inner}</article>
+          const inner = <><div className="project-scene-ambient" aria-hidden="true"><span>{project.name}</span><pre>{project.scene}</pre></div><div className="project-scene-top"><span>{String(i + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}</span><span>{project.field}</span></div><div className="project-scene-title"><span>PROYECTO {String(i + 1).padStart(2, '0')}</span><h3>{project.name}</h3><p>{project.story}</p><small>{project.role}</small></div><div className="project-scene-visual"><ProjectFrame project={project}/><span className="project-scene-open">{project.url ? 'ABRIR PROYECTO ↗' : 'EN DESARROLLO'}</span></div><div className="project-scene-foot"><span>{project.year}</span><span>{project.url ? 'DESLIZA PARA EXPLORAR' : 'PRÓXIMAMENTE'}</span></div></>
+          return project.url ? <a href={project.url} target="_blank" rel="noreferrer" className={`project-scene scene-${project.visual} ${active === i ? 'is-active' : ''}`} key={project.name} onPointerMove={moveProject} onMouseEnter={() => setActive(i)} onFocus={() => setActive(i)}>{inner}</a> : <article className={`project-scene scene-${project.visual} ${active === i ? 'is-active' : ''}`} key={project.name}>{inner}</article>
         })}</div>
         <div className="work-outro"><span>06 / 06 — FIN DEL DIRECTORIO</span><strong>El trabajo continúa.</strong><span>↓ &nbsp; SIGUIENTE: CÓMO PIENSO</span></div>
       </section>
