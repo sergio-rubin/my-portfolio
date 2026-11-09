@@ -88,6 +88,9 @@
 .stack-foot { position: relative; z-index: 2; }
 .stack-marquee { position: absolute; z-index: 2; top: 0; left: 0; right: 0; height: 43px; overflow: hidden; border-block: 1px solid #ffffff1a; background: #0c0c0c; color: #ffffff77; font: 9px/42px 'Azeret Mono', monospace; white-space: nowrap; }
 .stack-marquee>div { display: flex; width: max-content; gap: 30px; animation: stack-marquee-travel 36s linear infinite; }
+.stack-section:not(.is-visible) .stack-marquee>div,
+.stack-section:not(.is-visible) .ascii-rain-drop,
+.stack-section:not(.is-visible) .ascii-rain-impact span { animation-play-state: paused; }
 .stack-marquee span { display: inline-flex; gap: 30px; }
 .stack-marquee i { color: var(--accent); font-style: normal; }
 @keyframes stack-marquee-travel { to { transform: translateX(-50%); } }

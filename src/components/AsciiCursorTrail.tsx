@@ -21,6 +21,9 @@ export function AsciiCursorTrail({ paused }: { paused: boolean }) {
     let pointerY = -100
     let pointerVisible = false
     const marks: Mark[] = []
+    const requestDraw = () => {
+      if (!frame && !document.hidden) frame = requestAnimationFrame(draw)
+    }
 
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 2)
@@ -29,12 +32,14 @@ export function AsciiCursorTrail({ paused }: { paused: boolean }) {
       canvas.style.width = `${window.innerWidth}px`
       canvas.style.height = `${window.innerHeight}px`
       context.setTransform(ratio, 0, 0, ratio, 0, 0)
+      if (pointerVisible || marks.length) requestDraw()
     }
 
     const move = (event: PointerEvent) => {
       pointerX = event.clientX
       pointerY = event.clientY
       pointerVisible = true
+      requestDraw()
       if (Math.hypot(pointerX - lastX, pointerY - lastY) < 14) return
       lastX = pointerX
       lastY = pointerY
@@ -56,6 +61,7 @@ export function AsciiCursorTrail({ paused }: { paused: boolean }) {
     }
 
     const draw = (now: number) => {
+      frame = 0
       context.clearRect(0, 0, window.innerWidth, window.innerHeight)
       context.textAlign = 'center'
       context.textBaseline = 'middle'
@@ -74,13 +80,19 @@ export function AsciiCursorTrail({ paused }: { paused: boolean }) {
         context.fillText('✳', pointerX, pointerY - 22)
       }
       context.globalAlpha = 1
-      frame = requestAnimationFrame(draw)
+      if (marks.length) requestDraw()
     }
 
-    const leave = () => { pointerVisible = false }
-    const visibility = () => { if (document.hidden) { marks.length = 0; pointerVisible = false } }
+    const leave = () => { pointerVisible = false; requestDraw() }
+    const visibility = () => {
+      if (!document.hidden) return
+      marks.length = 0
+      pointerVisible = false
+      cancelAnimationFrame(frame)
+      frame = 0
+      context.clearRect(0, 0, window.innerWidth, window.innerHeight)
+    }
     resize()
-    frame = requestAnimationFrame(draw)
     window.addEventListener('resize', resize)
     window.addEventListener('pointermove', move, { passive: true })
     window.addEventListener('blur', leave)

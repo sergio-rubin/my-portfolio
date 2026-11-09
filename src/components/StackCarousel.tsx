@@ -83,7 +83,7 @@ export function StackCarousel({ motionOff }: { motionOff: boolean }) {
   }, [visible, interacting, motionOff, select])
 
   const current = tools[active]
-  return <section className="stack-section" id="stack" aria-labelledby="stack-title" ref={sectionRef} onPointerMove={() => setInteracting(true)} onPointerLeave={() => setInteracting(false)} onFocusCapture={() => setInteracting(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setInteracting(false) }} onTouchStart={() => setInteracting(true)} onTouchEnd={() => setInteracting(false)}>
+  return <section className={`stack-section ${visible ? 'is-visible' : ''}`} id="stack" aria-labelledby="stack-title" ref={sectionRef} onPointerMove={() => setInteracting(true)} onPointerLeave={() => setInteracting(false)} onFocusCapture={() => setInteracting(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setInteracting(false) }} onTouchStart={() => setInteracting(true)} onTouchEnd={() => setInteracting(false)}>
     <AsciiRain/>
     <div className="stack-marquee" aria-hidden="true"><div>{[...tools, ...tools].map((tool, index) => <span key={`${tool.name}-${index}`}>{tool.name}<i> / </i></span>)}</div></div>
     <div className="stack-heading"><span>[ Herramientas / {String(tools.length).padStart(2, '0')} ]</span><div><h2 id="stack-title">Mi lenguaje<br/><i>de trabajo.</i></h2><p>Un stack para resolver problemas reales. Cada herramienta entra cuando la idea la necesita.</p></div></div>
