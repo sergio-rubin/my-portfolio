@@ -84,6 +84,7 @@ export function AsciiCursorTrail({ paused }: { paused: boolean }) {
     }
 
     const leave = () => { pointerVisible = false; requestDraw() }
+    const pointerOut = (event: PointerEvent) => { if (!event.relatedTarget) leave() }
     const visibility = () => {
       if (!document.hidden) return
       marks.length = 0
@@ -95,14 +96,17 @@ export function AsciiCursorTrail({ paused }: { paused: boolean }) {
     resize()
     window.addEventListener('resize', resize)
     window.addEventListener('pointermove', move, { passive: true })
+    window.addEventListener('pointerout', pointerOut)
     window.addEventListener('blur', leave)
     document.addEventListener('visibilitychange', visibility)
     return () => {
       cancelAnimationFrame(frame)
       window.removeEventListener('resize', resize)
       window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerout', pointerOut)
       window.removeEventListener('blur', leave)
       document.removeEventListener('visibilitychange', visibility)
+      context.clearRect(0, 0, window.innerWidth, window.innerHeight)
     }
   }, [paused])
 

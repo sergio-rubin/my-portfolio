@@ -124,6 +124,7 @@ export function GlyphSculpture({ paused }: Props) {
       ro.disconnect()
       element.removeEventListener('pointermove', onPointer)
       window.removeEventListener('scroll', onScroll)
+      timer.dispose()
       geometry.dispose()
       material.dispose()
       renderer.dispose()
