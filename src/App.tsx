@@ -87,6 +87,21 @@ function App() {
   const [reduced, setReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const motionOff = paused || reduced
 
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1))
+    if (!id) return
+    let cancelled = false
+    document.fonts.ready.then(() => {
+      if (cancelled) return
+      window.requestAnimationFrame(() => {
+        if (cancelled) return
+        document.getElementById(id)?.scrollIntoView({ behavior: 'instant', block: 'start' })
+        ScrollTrigger.refresh()
+      })
+    })
+    return () => { cancelled = true }
+  }, [])
+
   const visitSection = (id: string) => {
     setMenuOpen(false)
     window.requestAnimationFrame(() => document.querySelector<HTMLElement>(`#${id} h2`)?.focus({ preventScroll: true }))
