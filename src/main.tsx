@@ -5,6 +5,7 @@ import './styles.css'
 import './redesign.css'
 import './iteration.css'
 import './gallery.css'
+import './polish.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

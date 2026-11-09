@@ -1,3 +1,5 @@
+import { ScrollSmoother } from 'gsap/ScrollSmoother'
+
 export function HeroTerminal({ motionOff }: { motionOff: boolean }) {
   const openProjects = () => {
     const work = document.getElementById('trabajo')
@@ -15,7 +17,9 @@ export function HeroTerminal({ motionOff }: { motionOff: boolean }) {
     window.addEventListener('scrollend', () => {
       if (Math.abs(work.getBoundingClientRect().top) < 80) focusHeading()
     }, { once: true })
-    work.scrollIntoView({ behavior: 'smooth' })
+    const smoother = ScrollSmoother.get()
+    if (smoother) smoother.scrollTo(work, true, 'top top')
+    else work.scrollIntoView({ behavior: 'smooth' })
   }
   return <div className="hero-terminal" aria-label="Terminal: cd Proyectos">
     <div className="terminal-top"><span className="terminal-lights" aria-hidden="true"><i/><i/><i/></span><span>sergio@portfolio:~</span><span>01 / 06</span></div>

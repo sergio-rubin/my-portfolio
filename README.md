@@ -19,7 +19,8 @@ npm run build
 - Manifiesto conectado a la lluvia del stack, con ondas, firma `sr_` y un pingüino ASCII que entran durante el scroll.
 - Archivo experimental contado en cuatro capítulos verticales con diagramas ASCII y un camino sinuoso de bits que se ilumina.
 - Navegación superpuesta, control de pausa y soporte para `prefers-reduced-motion`. WebGL y los efectos ASCII descansan cuando están pausados o fuera de pantalla.
-- HeroUI para el control principal, Space UI `ScrollTextReveal` en la presentación, ReactBits `DecryptedText` para el saludo y GSAP ScrollTrigger para las escenas.
+- Scroll nativo suavizado con GSAP ScrollSmoother, barra personalizada y escenas fijadas con ScrollTrigger. Enter limpia el hero antes de revelar el directorio sin inclinación; los enlaces internos usan el desplazamiento del plugin.
+- HeroUI para el control principal, Space UI `ScrollTextReveal` en la presentación y ReactBits `DecryptedText` para el saludo.
 
 Los recursos locales en `public/media/` proceden de [W.A Coding](https://wacoding.org/), [Habitatum](https://habitatum.com.mx/), [Radar Cultural](https://radarcultural.mx/), [ALFA](https://alf4.org/) y el [perfil de GitHub de Sergio](https://github.com/sergio-rubin). Luna y Stoqio usan composiciones editoriales creadas con CSS. Las URLs, roles y textos están en `src/App.tsx`.
 
