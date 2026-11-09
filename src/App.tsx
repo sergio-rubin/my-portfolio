@@ -118,10 +118,10 @@ function App() {
         if (cancelled) return
         const target = document.getElementById(id)
         if (!target) return
+        ScrollTrigger.refresh()
         const smoother = ScrollSmoother.get()
         if (smoother) smoother.scrollTo(target, false, 'top top')
         else target.scrollIntoView({ behavior: 'instant', block: 'start' })
-        ScrollTrigger.refresh()
       })
     })
     return () => { cancelled = true }
@@ -140,8 +140,10 @@ function App() {
     }
     const onPopState = () => window.requestAnimationFrame(syncHistory)
     window.addEventListener('popstate', onPopState)
+    window.addEventListener('hashchange', onPopState)
     return () => {
       window.removeEventListener('popstate', onPopState)
+      window.removeEventListener('hashchange', onPopState)
       window.history.scrollRestoration = previousRestoration
     }
   }, [])
