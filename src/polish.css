@@ -1,0 +1,61 @@
+/* ScrollSmoother keeps the native document scrollbar; this skin is only visual. */
+html {
+  scroll-behavior: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #bd4938 #090909;
+}
+
+html::-webkit-scrollbar { width: 11px; }
+html::-webkit-scrollbar-track { background: #090909; border-left: 1px solid #ffffff18; }
+html::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #f4735e, #b94131);
+  border: 3px solid #090909;
+  border-radius: 20px;
+}
+html::-webkit-scrollbar-thumb:hover { background: #ff806b; }
+
+#smooth-content { width: 100%; overflow: visible; }
+.has-scroll-smoother .hero-stage,
+.has-scroll-smoother .statement-stage,
+.has-scroll-smoother .interlude-stage { position: relative; }
+
+.about-section { position: relative; }
+.about-seam {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent) 50%, transparent);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.contact-section h2 { line-height: .91; letter-spacing: -.075em; }
+.archive-story.story-3 .archive-story-copy { max-width: none; }
+.archive-story.story-1 .archive-story-art > span { font-size: clamp(38px, 4vw, 58px); }
+.archive-story.story-1 .archive-story-art pre { font-size: 10px; line-height: 1.15; margin-top: 10px; }
+.archive-story.story-2 .archive-story-art > span { font-size: clamp(40px, 4vw, 54px); }
+.archive-story.story-2 .archive-story-art pre { font-size: 8px; line-height: 1.1; margin-top: 0; }
+
+@media (min-width: 1200px) {
+  .archive-story.story-3 .archive-story-art > span { font-size: clamp(43px, 3vw, 48px); }
+  .archive-story.story-3 .archive-story-art pre { font-size: 10px; }
+}
+
+@media (min-width: 1001px) {
+  .scene-habitatum .project-scene-title h3 { font-size: clamp(58px, 6.2vw, 110px); }
+}
+
+@media (min-width: 621px) and (max-width: 720px) {
+  .archive-story.story-3 h3 { font-size: clamp(32px, 5.2vw, 38px); }
+}
+
+@media (max-width: 620px) {
+  .stack-hero-art { display: none; }
+  .archive-story.story-2 .archive-story-art pre { display: none; }
+  .archive-story.story-3 h3 { font-size: clamp(42px, 12vw, 50px); }
+  .contact-section h2 { line-height: .98; letter-spacing: -.065em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
