@@ -89,12 +89,12 @@ function App() {
   const motionOff = paused || reduced
 
   useEffect(() => {
-    if (reduced) return
+    if (reduced || paused) return
     document.documentElement.classList.add('has-scroll-smoother')
     const smoother = ScrollSmoother.create({
       wrapper: '#smooth-wrapper',
       content: '#smooth-content',
-      smooth: paused ? 0 : 1.05,
+      smooth: 1.05,
       smoothTouch: 0.12,
       effects: false,
       onFocusIn: (_self, event) =>
@@ -106,11 +106,7 @@ function App() {
       smoother.kill()
       document.documentElement.classList.remove('has-scroll-smoother')
     }
-  }, [reduced])
-
-  useEffect(() => {
-    ScrollSmoother.get()?.smooth(paused ? 0 : 1.05)
-  }, [paused])
+  }, [reduced, paused])
 
   useEffect(() => {
     const id = decodeURIComponent(window.location.hash.slice(1))
@@ -131,12 +127,31 @@ function App() {
     return () => { cancelled = true }
   }, [])
 
+  useEffect(() => {
+    const previousRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+    const syncHistory = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1))
+      const target = id ? document.getElementById(id) : null
+      const smoother = ScrollSmoother.get()
+      if (smoother) smoother.scrollTo(target ?? 0, false, 'top top')
+      else if (target) target.scrollIntoView({ behavior: 'instant', block: 'start' })
+      else window.scrollTo({ top: 0, behavior: 'instant' })
+    }
+    const onPopState = () => window.requestAnimationFrame(syncHistory)
+    window.addEventListener('popstate', onPopState)
+    return () => {
+      window.removeEventListener('popstate', onPopState)
+      window.history.scrollRestoration = previousRestoration
+    }
+  }, [])
+
   const navigateTo = (id: string) => {
     const target = document.getElementById(id)
     if (!target) return
     if (window.location.hash !== `#${id}`) window.history.pushState(null, '', `#${id}`)
     const smoother = ScrollSmoother.get()
-    if (smoother && !motionOff) smoother.scrollTo(target, true, 'top top')
+    if (smoother) smoother.scrollTo(target, !motionOff, 'top top')
     else target.scrollIntoView({ behavior: motionOff ? 'instant' : 'smooth', block: 'start' })
   }
 
@@ -148,7 +163,12 @@ function App() {
 
   const exploreWork = () => {
     if (motionOff) {
-      document.getElementById('trabajo')?.scrollIntoView({ behavior: 'instant' })
+      const work = document.getElementById('trabajo')
+      if (work) {
+        const smoother = ScrollSmoother.get()
+        if (smoother) smoother.scrollTo(work, false, 'top top')
+        else work.scrollIntoView({ behavior: 'instant' })
+      }
       return
     }
     const hero = document.getElementById('inicio')
@@ -252,8 +272,7 @@ function App() {
         const visual = scene.querySelector('.project-scene-visual')
         const title = scene.querySelector('.project-scene-title')
         gsap.fromTo(visual, { yPercent: 13, scale: 0.92, clipPath: 'inset(4% 0% 4% 0% round 18px)' }, { yPercent: -6, scale: 1, clipPath: 'inset(0% 0% 0% 0% round 12px)', ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom top', scrub: 0.65 } })
-        const mobileTitle = window.matchMedia('(max-width: 620px)').matches
-        gsap.fromTo(title, { xPercent: mobileTitle ? 0 : index % 2 ? 12 : -12, opacity: mobileTitle ? 1 : 0.55 }, { xPercent: mobileTitle ? 0 : index % 2 ? -6 : 6, opacity: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom 55%', scrub: 0.7 } })
+        gsap.fromTo(title, { yPercent: 8, opacity: 0.55 }, { yPercent: -3, opacity: 1, ease: 'none', scrollTrigger: { trigger: scene, start: 'top bottom', end: 'bottom 55%', scrub: 0.7 } })
       })
       const statementWords = gsap.utils.toArray<HTMLElement>('.statement-word')
       const compactStatement = window.matchMedia('(max-width: 620px)').matches

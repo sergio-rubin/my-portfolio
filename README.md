@@ -13,12 +13,12 @@ npm run build
 ## Experiencia
 
 - Portada tipográfica con escultura `SR` de puntos WebGL en Three.js, retícula cinematográfica, estela ASCII y una terminal que escribe `cd Proyectos` durante el scroll. El botón principal conduce al comando y Enter abre los proyectos.
-- Seis proyectos en escenas verticales de pantalla completa. Las composiciones alternan su dirección en escritorio; la visual responde al cursor y la acción de abrir lo sigue. Stoqio se identifica como producto en desarrollo.
+- Seis proyectos en escenas verticales de pantalla completa. Las composiciones alternan su dirección en escritorio y se apilan en tamaños intermedios; la visual responde al cursor y la acción de abrir lo sigue. Stoqio se identifica como producto en desarrollo.
 - Lectura fija después de los casos, con zoom e iluminación progresiva de palabras, que conduce al stack.
 - Carrusel automático de lenguajes y herramientas con controles, colores de marca atenuados, dibujos ASCII y lluvia de caracteres con ondas tipográficas.
 - Manifiesto conectado a la lluvia del stack, con ondas, firma `sr_` y un pingüino ASCII que entran durante el scroll.
 - Archivo experimental contado en cuatro capítulos verticales con diagramas ASCII y un camino sinuoso de bits que se ilumina.
-- Navegación superpuesta, control de pausa y soporte para `prefers-reduced-motion`. WebGL y los efectos ASCII descansan cuando están pausados o fuera de pantalla.
+- Navegación superpuesta con soporte para historial, control de pausa y `prefers-reduced-motion`. Al pausar, el desplazamiento vuelve al flujo nativo; WebGL y los efectos ASCII descansan.
 - Scroll nativo suavizado con GSAP ScrollSmoother, barra personalizada y escenas fijadas con ScrollTrigger. Enter limpia el hero antes de revelar el directorio sin inclinación; los enlaces internos usan el desplazamiento del plugin.
 - HeroUI para el control principal, Space UI `ScrollTextReveal` en la presentación y ReactBits `DecryptedText` para el saludo.
 
